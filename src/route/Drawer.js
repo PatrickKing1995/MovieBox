@@ -11,13 +11,20 @@ import {Tab} from './Tab';
 import ProfileComponent from '../components/ProfileComponent'
 const {width} = Dimensions.get('window')
 
+this.state= {
+    width: width*0.9,
+}
+
+
 export const Drawer = DrawerNavigator({
     Home: {
         screen: Tab
     }
 },
-    {
-        drawerWidth: width,
+
+    {   
+        useNativeAnimations: false,
+        drawerWidth: this.state.width,
         drawerPosition:'left',
         contentComponent: props =><ProfileComponent {...props}/>
 });

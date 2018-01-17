@@ -4,12 +4,14 @@ import { View,
     ScrollView,
     StyleSheet,
     Image,
+    Dimensions
  } from 'react-native';
 import { StackNavigator, TabNavigator, DrawerNavigator, DrawerItems } from 'react-navigation';
 import AboutComponent from '../components/AboutComponent';
 import FavoristComponent from '../components/FavoristComponent';
 import MovieComponent from '../components/MovieComponent';
 import SettingComponent from '../components/SettingComponent';
+const {height} = Dimensions.get('window')
 
 export const Tab = TabNavigator(
   {
@@ -76,16 +78,18 @@ export const Tab = TabNavigator(
     },
   },
   {
+    
       tabBarPosition: 'bottom',
       swipeEnabled: false,
       animationEnabled: true,
       tabBarOptions: {
         // activeTintColor: '#2c3e50',
           style: {
-              backgroundColor: '#2c3e50',
+              backgroundColor: '#311e3e',
+              opacity: 1,
           },
           tabStyle: {
-            height: 50,    
+            height: height*0.09,    
            },
            iconStyle: {
              alignItems:'flex-end',
