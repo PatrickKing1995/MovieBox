@@ -28,7 +28,7 @@ export  class MoviesHearder extends Component {
                 </TouchableOpacity>
                 <Text style={header.title}>{this.state.language}</Text>
                 <Picker
-                style={{width: "5%", color: "#FFFFFF"}}
+                  style={{width: "5%", color: "#FFFFFF"}}
                   onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
                   <Picker.Item label="Popular" value="Popular" />
                   <Picker.Item label="Top Rated" value="Top Rated" />
