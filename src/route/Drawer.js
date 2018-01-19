@@ -12,7 +12,7 @@ import ProfileComponent from '../components/ProfileComponent'
 const {width} = Dimensions.get('window')
 
 this.state= {
-    width: width*0.9,
+    width: width*0.87,
 }
 
 

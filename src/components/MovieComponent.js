@@ -8,9 +8,11 @@ export default class MovieComponent extends Component {
   };
   render() {
     return (
-      <View style={{ flex: 1 }}>
+      <View style={{ flex: 1,  backgroundColor: "#f9f8fd"  }}>
         <MoviesHearder open={() => this.onClick_User()}/>
-        <Text>Hi</Text>
+        <View>
+
+        </View>
       </View>
     )
   }

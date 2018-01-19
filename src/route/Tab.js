@@ -85,7 +85,7 @@ export const Tab = TabNavigator(
       tabBarOptions: {
         // activeTintColor: '#2c3e50',
           style: {
-              backgroundColor: '#311e3e',
+              backgroundColor: '#1F2B40',
               opacity: 1,
           },
           tabStyle: {
