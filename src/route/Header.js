@@ -27,14 +27,6 @@ export  class MoviesHearder extends Component {
                     <Image style={header.image2} source={require('../../icons/menu.png')}/>
                 </TouchableOpacity>
                 <Text style={header.title}>{this.state.language}</Text>
-                <Picker
-                  style={{width: "5%", color: "#FFFFFF"}}
-                  onValueChange={(itemValue, itemIndex) => this.setState({language: itemValue})}>
-                  <Picker.Item label="Popular" value="Popular" />
-                  <Picker.Item label="Top Rated" value="Top Rated" />
-                  <Picker.Item label="Upcoming" value="Upcoming" />
-                  <Picker.Item label="Nowplaying" value="Nowplaying" />
-                </Picker>
                 <TouchableOpacity
                 onPress={()=>this.setState({show: !this.state.show})}
                   >
@@ -126,7 +118,7 @@ export  class AboutHearder extends Component {
   }
 }
 
-export  class allRemindersHearder extends Component {
+export  class allRemind extends Component {
   render() {
     return (
         <View style={header.wrapp} elevation={20}>
@@ -176,7 +168,7 @@ const header = StyleSheet.create({
     shadowOpacity: 1,
   },
   container: {
-    height: 80,
+    height: 70,
   },
   rap:  {
     flex: 1, 
@@ -187,7 +179,6 @@ const header = StyleSheet.create({
   },
   title:  {
     color: '#FFFFFF',
-    width: "40%",
     fontSize: 22,
   },
   image1: {

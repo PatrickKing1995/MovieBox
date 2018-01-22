@@ -1,0 +1,75 @@
+var flastlistData = [
+    {	
+        id:	346364,	
+        vote_average:	7.1,
+        title:	"It",
+        poster_path:	"/9E2y5Q7WlCVNEhP5GiVTjhEhx1o.jpg",
+        overview:	"In a small town in Maine…clown called Pennywise.",
+        release_date:	"2017-09-05",
+        },
+        {	
+        id:	353486,
+        vote_average:	6.4,
+        title:	"Jumanji: Welcome to the Jungle",
+        poster_path:	"/bXrZ5iHBEjH7WMidbUDQ0U2xbmr.jpg",
+        overview:	"The tables are turned as four teenagers are sucked into Jumanji's world - pitted against rhinos, black mambas and an endless variety of jungle traps and puzzles. To survive, they'll play as characters from the game.",
+        release_date:	"2017-12-08",
+        },
+        {
+            id:	181808,	
+        vote_average:	7.2,
+        title:	"Star Wars: The Last Jedi",
+        poster_path:	"/kOVEVeg59E0wsnXmF9nrh6OmWII.jpg",
+        overview:	"Rey develops her newly discovered abilities with the guidance of Luke Skywalker, who is unsettled by the strength of her powers. Meanwhile, the Resistance prepares to do battle with the First Order.",
+        release_date:	"2017-12-13",
+        },
+        {	
+            id:	460793,
+        vote_average:	5.9,
+        title:	"Olaf's Frozen Adventure",
+        poster_path:	"/47pLZ1gr63WaciDfHCpmoiXJlVr.jpg",
+        overview:	"Olaf is on a mission to harness the best holiday traditions for Anna, Elsa, and Kristoff.",
+        release_date:	"2017-10-27",
+        },
+        {	
+        vote_average:	8,
+        title:	"The Greatest Showman",
+        poster_path:	"/dfhztJRiElqmYW4kpvjYe1gENsD.jpg",
+        overview:	"The story of American showman P.T. Barnum, founder of the circus that became the famous traveling Ringling Bros. and Barnum & Bailey Circus.",
+        release_date:	"2017-12-20",
+        },
+        {	
+            id:	316029,
+        vote_average:	7,
+        title:	"John Wick",
+        poster_path:	"/5vHssUeVe25bMrof1HyaPyWgaP.jpg",
+        overview:	"Ex-hitman John Wick comes out of retirement to track down the gangsters that took everything from him.",
+        release_date:	"2014-10-22",
+        },
+        {	
+            id:	245891,
+        vote_average:	7.4,
+        title:	"Dunkirk",
+        poster_path:	"/bOXBV303Fgkzn2K4FeKDc0O31q4.jpg",
+        overview:	"The story of the miraculous evacuation of Allied soldiers from Belgium, Britain, Canada and France, who were cut off and surrounded by the German army from the beaches and harbour of Dunkirk between May 26th and June 4th 1940 during World War II.",
+        release_date:	"2017-07-19",
+        },
+        {	
+            id:	374720,
+        vote_average:	7.7,
+        title:	"Coco",
+        poster_path:	"/eKi8dIrr8voobbaGzDpe8w0PVbC.jpg",
+        overview:	"Despite his family’s baffling generations-old ban on music, Miguel dreams of becoming an accomplished musician like his idol, Ernesto de la Cruz. Desperate to prove his talent, Miguel finds himself in the stunning and colorful Land of the Dead following a mysterious chain of events. Along the way, he meets charming trickster Hector, and together, they set off on an extraordinary journey to unlock the real story behind Miguel's family history.",
+        release_date:	"2017-10-27",
+        },
+        {	
+            id:	354912,
+        vote_average:	5.4,
+        title:	"Sleight",
+        poster_path:	"/wridRvGxDqGldhzAIh3IcZhHT5F.jpg",
+        overview:	"A young street magician is left to take care of his little sister after his mother's passing and turns to drug dealing in the Los Angeles party scene to keep a roof over their heads. When he gets into trouble with his supplier, his sister is kidnapped and he is forced to rely on both his sleight of hand and brilliant mind to save her.",
+        release_date:	"2017-04-28",
+        }
+];
+
+module.exports = flastlistData;

@@ -1,6 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity  } from 'react-native';
-import {MoviesHearder} from '../route/Header';
+import {allRemind} from '../route/Header';
 import flastlistData from './popular'
 
 
@@ -54,18 +54,18 @@ export class Items extends Component {
   }
 }
 
-export default class MovieComponent extends Component {
+export default class AllReminders extends Component {
   constructor(props){
     super(props);
   }
   onClick_User = () => {
-    this.props.navigation.navigate('DrawerOpen');
+    this.props.navigation.goBack();
   };
 
   render() {
     return (
       <View style={{ flex: 1,  backgroundColor: "#f9f8fd"  }}>
-        <MoviesHearder open={() => this.onClick_User()}/>
+        <allRemind />
         <FlatList
           data={flastlistData}
           renderItem={({item, index}) => {
