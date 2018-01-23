@@ -54,9 +54,38 @@ export class Items extends Component {
   }
 }
 
+export class Item extends Component {
+  constructor(props){
+    super(props);
+    console.ignoredYellowBox = ["VirtualizedList"];
+  }
+  render(){
+    return(
+      <View style={[lists.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
+        <View style={lists.title}>
+          <Text style={lists.name}>{this.props.item.title}</Text>
+        </View>
+        <View style={lists.detail}>
+        <TouchableOpacity
+        style={{width: "40%", height: 200}}
+        >
+          <Image
+            style={lists.image}
+            source={{uri: 'http://image.tmdb.org/t/p/w185'+this.props.item.poster_path}}
+          />
+        </TouchableOpacity>
+        </View>
+      </View>
+    )
+  }
+}
+
 export default class MovieComponent extends Component {
   constructor(props){
     super(props);
+    this.state={
+      list: true,
+    }
   }
   onClick_User = () => {
     this.props.navigation.navigate('DrawerOpen');
@@ -69,13 +98,25 @@ export default class MovieComponent extends Component {
         <FlatList
           data={flastlistData}
           renderItem={({item, index}) => {
-            return <Items item={item} index={index}/>;
+            if (this.state.list) {
+              return <Items item={item} index={index}/>};
+              return <Item item={item} index={index}/>;
           }}
         />
       </View>
     )
   }
 }
+
+
+const lists= StyleSheet.create({
+  container:{
+    paddingTop: 5,
+    paddingBottom: 10,
+    paddingLeft:10,
+    paddingRight:10,
+  },
+})
 
 const list = StyleSheet.create({
   container: {

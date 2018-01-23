@@ -1,7 +1,8 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity  } from 'react-native';
-import {allRemind} from '../route/Header';
-import flastlistData from './popular'
+import { Text, View, FlatList,StyleSheet,Image,Alert, TouchableOpacity  } from 'react-native';
+import {AllRemind} from '../route/Header';
+import reminders from './popular';
+import Swipeout from 'react-native-swipeout'
 
 
 export class Items extends Component {
@@ -9,47 +10,69 @@ export class Items extends Component {
     super(props);
     this.state = {
       favor: false,
+      activeRowKey: null
     }
     console.ignoredYellowBox = ["VirtualizedList"];
   }
   render(){
+    const swipeSettings={
+      autoClose: true,
+      onClose:(secId, rowId, direction)=>{
+          if(this.state.activeRowKey != null){
+            this.setState({activeRowKey: null});
+          }
+      },
+      onOpen:(secId, rowId, direction)=>{
+        this.setState({activeRowKey: this.props.item.id})
+      },
+      right: [
+        {
+          onPress:()=>{
+            Alert.alert(
+              'Confirm!!',
+              'Are you sure you want to delete this reminder!',
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'OK', onPress: () => {
+                  reminders.splice(this.props.index, 1);
+                }},
+              ],
+              { cancelable: false }
+            )
+          },
+          text: 'Delete', type: 'delete'
+        }
+      ],
+      rowId: this.props.index,
+      sectionId:1,
+    };
+
     return(
-      <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
-        <View style={list.title}>
-          <Text style={list.name}>{this.props.item.title}</Text>
-          <TouchableOpacity
-            onPress={()=>{this.setState({favor: !this.state.favor})}}
-          >
-            {this.state.favor? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
-          </TouchableOpacity>
-        </View>
-        <View style={list.detail}>
-        <TouchableOpacity
-        style={{width: "40%", height: 200}}
-        >
-          <Image
-            style={list.image}
-            source={{uri: 'http://image.tmdb.org/t/p/w185'+this.props.item.poster_path}}
-          />
-        </TouchableOpacity>
-        <View style={list.desp}>
-          <View style={list.release}>
-            <Text style={list.text}>Release date:</Text>
-            <Text style={list.infor}>{this.props.item.release_date}</Text>
+      <Swipeout {...swipeSettings}>
+          <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
+          <View style={list.detail}>
+            <TouchableOpacity
+            style={{width: "30%", height: 100}}
+            >
+              <Image
+                style={list.image}
+                source={{uri: 'http://image.tmdb.org/t/p/w185'+this.props.item.poster_path}}
+              />
+            </TouchableOpacity>
+          <View style={list.desp}>
+            <View style={list.release}>
+              <Text style={list.text} numberOfLines={1}>{this.props.item.title} - {this.props.item.release_date.slice(0,4)} - {this.props.item.vote_average}/10</Text>
+            </View>
+            <View style={list.rate}>
+              <Text style={list.infor}>2017-09-16 10:12</Text>
+            </View>
           </View>
-         <View style={list.rate}>
-          <Text style={list.text}>Rating:</Text>
-          <Text style={list.infor}>{this.props.item.vote_average}<Text style={list.text}>/10</Text></Text>
-         </View>
-         <View style={list.over}>
-          <Text style={list.inforo}>Overview:</Text>
-         </View>
-          <View style={list.overview}>
-            <Text style={list.texto} numberOfLines={4}>{this.props.item.overview}</Text>
+            <View style={{width: "5%", alignItems: "center", justifyContent: "center"}}>
+              <Image style={list.imageright} source={require('../../icons/right.png')}/>
+            </View>  
           </View>
-        </View>  
         </View>
-      </View>
+      </Swipeout>
     )
   }
 }
@@ -65,9 +88,10 @@ export default class AllReminders extends Component {
   render() {
     return (
       <View style={{ flex: 1,  backgroundColor: "#f9f8fd"  }}>
-        <allRemind />
+        <AllRemind open={() => this.onClick_User()}/>
         <FlatList
-          data={flastlistData}
+          refreshing={true}
+          data={reminders}
           renderItem={({item, index}) => {
             return <Items item={item} index={index}/>;
           }}
@@ -81,8 +105,7 @@ const list = StyleSheet.create({
   container: {
     // borderBottomWidth: 0.5,
     // borderColor: "#3F485B",   
-    paddingTop: 5,
-    paddingBottom: 10,
+    padding: 5,
     paddingLeft:10,
     paddingRight:10,
   },
@@ -100,6 +123,11 @@ const list = StyleSheet.create({
     height: "75%",
     flexDirection: "row",
   },
+  imageright:{
+    width: 40,
+    height: 40,
+    tintColor: "#F2C640",
+  },
   name: {
     fontSize: 18,
     fontWeight: "bold",
@@ -115,13 +143,17 @@ const list = StyleSheet.create({
     height: 200,
   },
   desp:{
-    width: "63%",
+    width: "65%",
+    paddingBottom: "5%",
+    paddingTop: "5%",
+    justifyContent: "space-between",
+    alignItems: "flex-start",
     paddingRight: 10,
     paddingLeft: 10,
     
   },
   text:{
-    fontSize: 15,
+    fontSize: 16,
     color: "#000"
   },
   texto:{
@@ -136,6 +168,7 @@ const list = StyleSheet.create({
   infor:{
     fontSize: 15,
     color: "red",
+    marginBottom: 10,
   },
   overview:{
     height: "60%",

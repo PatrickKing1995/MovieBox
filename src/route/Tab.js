@@ -58,7 +58,7 @@ export const Tab = TabNavigator(
             style={tab.icon}
           />
           <View style={tab.favor}>
-            <Text style={tab.textI}>0</Text>
+            <Text style={tab.textI}>18</Text>
           </View>
           </View>
             
@@ -144,6 +144,7 @@ const tab=StyleSheet.create({
     },
     textI: {
       backgroundColor: 'transparent',
-      color: 'white'
+      color: 'white',
+    fontSize: 13,
     }
 })

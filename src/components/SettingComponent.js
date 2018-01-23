@@ -10,8 +10,7 @@ export default class SettingComponent extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#f9f8fd" }}>
         <SettingHearder open={() => this.onClick_User()}/>
-        <TouchableOpacity
-        onPress={()=>{this.props.navigation.navigate("Screen_All")}}>
+        <TouchableOpacity>
         <Text>Hi</Text>
         </TouchableOpacity>
       </View>

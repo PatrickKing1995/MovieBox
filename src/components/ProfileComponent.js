@@ -3,6 +3,7 @@ import { Text, View, TouchableOpacity, Dimensions,StyleSheet, Image, TouchableNa
 const {height} = Dimensions.get('window')
 
 export default class ProfileComponent extends Component {
+
   render() {
     return (
       <View style={user.container}>
@@ -38,6 +39,7 @@ export default class ProfileComponent extends Component {
             <Text style={user.textreminder}>Reminder List:</Text>
             <TouchableOpacity
               style={user.press}
+              onPress={()=>{this.props.navigation.navigate("Screen_All")}}
             >
                <Text style={user.textshow}>Show All</Text>
                <Image style={user.iconReminder} source={require('../../icons/right.png')}/>

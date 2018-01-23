@@ -7,7 +7,7 @@ export  class MoviesHearder extends Component {
   constructor(props){
     super(props);
     this.state={
-      show: true,
+      show: false,
       language: "Popular"
     }
   }
@@ -118,24 +118,22 @@ export  class AboutHearder extends Component {
   }
 }
 
-export  class allRemind extends Component {
+export  class AllRemind extends Component {
   render() {
     return (
         <View style={header.wrapp} elevation={20}>
             <View style={[header.container, {backgroundColor: '#2E7866'}]}>
             <View style={header.statusbar}>
             </View>
-              <View style={header.rap}>
-                <View style={header.back}>
+              <View style={header.rapback}>
                 <TouchableOpacity
+                style={header.back}
                 onPress={this.props.open}
                   >
                     <Image style={header.imageback} source={require('../../icons/left.png')}/>
+                    <Text style={header.backText}>Settings</Text>
                 </TouchableOpacity>
-                <Text style={header.backText}>Settings</Text>
-                </View>
-                <Text style={header.title}>All Reminders</Text>
-                <View></View>
+                <Text style={header.titleback}>All Reminders</Text>
               </View>
             </View>
         </View>
@@ -149,14 +147,14 @@ const header = StyleSheet.create({
   },
   back: {
     flex: 1,
-    height: "30%",
+    width: "40%",
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center"
   },
   backText: {
     color: '#FFFFFF',
-    fontSize: 22,
+    fontSize: 20,
   },
   wrapp: {
     shadowColor: '#000',
@@ -177,7 +175,19 @@ const header = StyleSheet.create({
     justifyContent: 'space-between', 
     padding: 10,
   },
+  rapback: {
+    flex: 1, 
+    flexDirection: 'row',
+    alignItems: 'center',
+    justifyContent: 'flex-start', 
+    paddingRight: 5,
+  },
   title:  {
+    color: '#FFFFFF',
+    fontSize: 22,
+  },
+  titleback:{
+    width: "60%",
     color: '#FFFFFF',
     fontSize: 22,
   },
@@ -187,9 +197,8 @@ const header = StyleSheet.create({
     marginLeft: 100
   },
   imageback: {
-    height: 35,
-    width: 35,
-    marginLeft: 100
+    height: 33,
+    width: 33,
   },
   image2: {
     height: 30,
