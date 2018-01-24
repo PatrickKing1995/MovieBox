@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar,Picker,StyleSheet, Image, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Text, StatusBar,Picker,StyleSheet,Modal, Image, TouchableOpacity, BackHandler } from 'react-native';
 
 
 export  class MoviesHearder extends Component {
@@ -8,15 +8,47 @@ export  class MoviesHearder extends Component {
     super(props);
     this.state={
       show: false,
-      language: "Popular"
+      filter: "Popular",
+      modalVisible: false,
     }
   }
 
+  openModal() {
+    this.setState({modalVisible:true});
+  }
 
+  closeModal() {
+    this.setState({modalVisible:false});
+  }
+
+  componentWillMount(){
+    this.props.onClickFilter(this.state.filter)
+  }
 
   render() {
     return (
         <View style={header.wrapp} elevation={20}>
+        <Modal
+              transparent={true}
+              visible={this.state.modalVisible}
+              animationType={'fade'}
+              onRequestClose={() => this.closeModal()}
+          >
+            <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+              <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
+                <TouchableOpacity
+                  onPress={()=>{this.props.onClickFilter('Popular');this.closeModal() }}
+                >
+                  <Text>Popular</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>{this.props.onClickFilter('Top Rated');this.closeModal() }}
+                >
+                  <Text>Top Rated</Text>
+                </TouchableOpacity>
+              </View>
+            </View>
+          </Modal>
             <View style={[header.container, {backgroundColor: '#2E7866'}]}>
             <View style={header.statusbar}>
             </View>
@@ -26,12 +58,16 @@ export  class MoviesHearder extends Component {
                   >
                     <Image style={header.image2} source={require('../../icons/menu.png')}/>
                 </TouchableOpacity>
-                <Text style={header.title}>{this.state.language}</Text>
                 <TouchableOpacity
-                onPress={()=>this.setState({show: !this.state.show})}
+                onPress={()=>this.openModal()}
+                  >
+                    <Text style={header.title}>{this.props.kindFilter}</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                onPress={()=>{this.props.onClickSwitch()}}
                   >
                   {
-                    this.state.show?
+                    this.props.kindView?
                     <Image style={header.image2} source={require('../../icons/view-module.png')}/> :
                     <Image style={header.image2} source={require('../../icons/view-list.png')}/>
                   }
@@ -182,9 +218,14 @@ const header = StyleSheet.create({
     justifyContent: 'flex-start', 
     paddingRight: 5,
   },
-  title:  {
+  picker:  {
+    width: "40%",
     color: '#FFFFFF',
-    fontSize: 22,
+  },
+  title: {
+    fontSize: 20,
+    fontWeight: "bold",
+    color: '#FFFFFF'
   },
   titleback:{
     width: "60%",

@@ -9,7 +9,7 @@ import { View,
 import { StackNavigator, TabNavigator, DrawerNavigator, DrawerItems } from 'react-navigation';
 import AboutComponent from '../components/AboutComponent';
 import FavoristComponent from '../components/FavoristComponent';
-import MovieComponent from '../components/MovieComponent';
+import MovieContainer from '../containers/MovieContainer'
 import SettingComponent from '../components/SettingComponent';
 import AllReminders from '../components/AllReminders'
 const {height} = Dimensions.get('window')
@@ -32,7 +32,7 @@ export const Detail = StackNavigator({
 export const Tab = TabNavigator(
   {
     Screen_Movie: {
-        screen: MovieComponent,
+        screen: MovieContainer,
         navigationOptions: {
           tabBarLabel: ()=>
           <Text style={tab.text}>Movies</Text>

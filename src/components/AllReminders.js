@@ -49,7 +49,11 @@ export class Items extends Component {
 
     return(
       <Swipeout {...swipeSettings}>
-          <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
+          <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1",
+    paddingLeft: 10,
+    paddingRight:5,
+    paddingTop: this.props.index == 0 ? 10:5,
+    paddingBottom: 5}]}>
           <View style={list.detail}>
             <TouchableOpacity
             style={{width: "30%", height: 100}}
@@ -104,10 +108,7 @@ export default class AllReminders extends Component {
 const list = StyleSheet.create({
   container: {
     // borderBottomWidth: 0.5,
-    // borderColor: "#3F485B",   
-    padding: 5,
-    paddingLeft:10,
-    paddingRight:10,
+    // borderColor: "#3F485B",
   },
   title: {
     flex: 1,
