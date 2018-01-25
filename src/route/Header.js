@@ -8,7 +8,7 @@ export  class MoviesHearder extends Component {
     super(props);
     this.state={
       show: false,
-      filter: "Popular",
+      filter: "popular",
       modalVisible: false,
     }
   }
@@ -37,12 +37,12 @@ export  class MoviesHearder extends Component {
             <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
               <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
                 <TouchableOpacity
-                  onPress={()=>{this.props.onClickFilter('Popular');this.closeModal() }}
+                  onPress={()=>{this.props.onClickFilter('popular');this.closeModal() }}
                 >
                   <Text>Popular</Text>
                 </TouchableOpacity>
                 <TouchableOpacity
-                  onPress={()=>{this.props.onClickFilter('Top Rated');this.closeModal() }}
+                  onPress={()=>{this.props.onClickFilter('top_rated');this.closeModal() }}
                 >
                   <Text>Top Rated</Text>
                 </TouchableOpacity>

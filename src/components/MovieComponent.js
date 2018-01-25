@@ -70,31 +70,24 @@ export default class MovieComponent extends Component {
     super(props);
     this.state = {
       refreshing: false,
-      dataSource: null,
+      filter: 'popular',
+      dataSource: null
     };
   }
 
+  componentDidMount(){
+    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.state.filter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
+  }
 
-GetPopular(){
-    fetch('https://api.themoviedb.org/3/movie/popular?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
-      .then((response) => response.json())
-      .then((responseJson) => {
-        this.setState({
-          dataSource: responseJson.results,
-        }, function() {
-        });
-      })
-      .catch((error) => {
-        console.error(error);
-      });
-}
+  componentWillUpdate(){
+    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US')
+  }
 
-componentWillMount(){
-  this.GetPopular()
-}
+
+
   _onRefresh() {
     this.setState({refreshing: true});
-    this.GetPopular()
+    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
       this.setState({refreshing: false})
     
   }
@@ -114,7 +107,7 @@ componentWillMount(){
               onRefresh={this._onRefresh.bind(this)}
             />
           }
-          data={this.state.dataSource}
+          data={this.props.items}
           numColumns={this.props.kindView?2:1}
           renderItem={({item, index}) => Item(item,this.props.kindView, index)}
           key={this.props.kindView?1:0}

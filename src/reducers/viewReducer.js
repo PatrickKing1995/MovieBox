@@ -1,8 +1,7 @@
-import {SWITCH_VIEW,SWITCH_FILTER} from '../actions/actionTypes';
+import {SWITCH_VIEW} from '../actions/actionTypes';
 
 const initialState = {
     view: false,
-
 }
 
 const viewReducer = (state=initialState, action)=>{

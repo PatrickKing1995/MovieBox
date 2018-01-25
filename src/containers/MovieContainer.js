@@ -1,12 +1,22 @@
 import MovieComponent from '../components/MovieComponent';
-import {switchView, switchFilter} from '../actions';
 import {connect } from 'react-redux';
+import {itemsFetchData} from '../getfetchs/getListData'
+import {itemsFetchDataSuccess} from '../actions/index'
 
 const mapStateToProps = state =>{
     return {
         kindView: state.viewReducer.view,
         kindFilter: state.filterReducer.filter,
+        items: state.itemsReducer,
     }
 }
 
-export default connect(mapStateToProps)(MovieComponent);
+const mapDispatchToProps = (dispatch)=>{
+    return{
+        fetchData: (url) => {
+            itemsFetchData(url,dispatch,itemsFetchDataSuccess )
+        },
+    };
+}
+
+export default connect(mapStateToProps, mapDispatchToProps)(MovieComponent);
