@@ -1,4 +1,4 @@
-var castcrew = [{
+var castCrew = [{
     cast_id: 5,
     name: "Dwayne Johnson",
     profile_path: "/akweMz59qsSoPUJYe7QpjAc2rQp.jpg",
@@ -51,3 +51,5 @@ var castcrew = [{
     name: "Morgan Turner",
     profile_path: "/qT1HFFYeW0G4ODQ1EmxUcHa4TIb.jpg"
 }]
+
+module.exports = castCrew;

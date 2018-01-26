@@ -1,7 +1,10 @@
 import MovieComponent from '../components/MovieComponent';
 import {connect } from 'react-redux';
-import {itemsFetchData} from '../getfetchs/getListData'
-import {itemsFetchDataSuccess} from '../actions/index'
+import {itemsFetchData} from '../getfetchs/getListData';
+import {itemsFetchDataSuccess} from '../actions/index';
+import {getDetail} from '../getfetchs/getListData';
+import {getDetailSuccess} from '../actions/index'
+import {getCastSuccess} from '../actions/index'
 
 const mapStateToProps = state =>{
     return {
@@ -15,6 +18,9 @@ const mapDispatchToProps = (dispatch)=>{
     return{
         fetchData: (url) => {
             itemsFetchData(url,dispatch,itemsFetchDataSuccess )
+        },
+        fetchDetail: (id) => {
+            getDetail(id,dispatch,getDetailSuccess,getCastSuccess )
         },
     };
 }

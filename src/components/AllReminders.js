@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image,Alert, TouchableOpacity  } from 'react-native';
 import {AllRemind} from '../route/Header';
-import reminders from './popular';
+import reminders from './reminders';
 import Swipeout from 'react-native-swipeout'
 
 

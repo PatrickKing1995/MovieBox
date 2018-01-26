@@ -12,9 +12,10 @@ import FavoristComponent from '../components/FavoristComponent';
 import MovieContainer from '../containers/MovieContainer'
 import SettingComponent from '../components/SettingComponent';
 import AllReminders from '../components/AllReminders'
+import DetailContainer from '../containers/DetailContainer'
 const {height} = Dimensions.get('window')
 
-export const Detail = StackNavigator({
+export const Reminders = StackNavigator({
     Screen_Set: {
         screen: SettingComponent,
         navigationOptions: {
@@ -29,10 +30,25 @@ export const Detail = StackNavigator({
     }
 })
 
+export const Details = StackNavigator({
+    Screen_Film: {
+        screen: MovieContainer,
+        navigationOptions: {
+            header: null,
+        }
+    },
+    Screen_Detail: {
+        screen: DetailContainer,
+        navigationOptions: {
+            header: null,
+        }
+    }
+})
+
 export const Tab = TabNavigator(
   {
     Screen_Movie: {
-        screen: MovieContainer,
+        screen: Details,
         navigationOptions: {
           tabBarLabel: ()=>
           <Text style={tab.text}>Movies</Text>
@@ -66,7 +82,7 @@ export const Tab = TabNavigator(
     },
 
     Screen_Setting: {
-        screen: Detail,
+        screen: Reminders,
         navigationOptions: {
           tabBarLabel: ()=>
           <Text style={tab.text}>Settings</Text>

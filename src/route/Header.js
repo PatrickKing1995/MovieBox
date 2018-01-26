@@ -192,7 +192,7 @@ export  class Detail extends Component {
                     <Image style={header.imageback} source={require('../../icons/left.png')}/>
                     <Text style={header.backText}>Back</Text>
                 </TouchableOpacity>
-                <Text style={header.titleback}>nameFilm</Text>
+                <Text style={header.titlebackDetail} numberOfLines={1}>{this.props.name}</Text>
               </View>
             </View>
         </View>
@@ -214,6 +214,7 @@ const header = StyleSheet.create({
   backText: {
     color: '#FFFFFF',
     fontSize: 20,
+    alignSelf: 'center'
   },
   wrapp: {
     shadowColor: '#000',
@@ -225,7 +226,7 @@ const header = StyleSheet.create({
     shadowOpacity: 1,
   },
   container: {
-    height: 80,
+    height: 70,
   },
   rap:  {
     flex: 1, 
@@ -250,6 +251,14 @@ const header = StyleSheet.create({
     fontWeight: "bold",
     color: '#FFFFFF'
   },
+  titlebackDetail:{
+    width: "75%",
+    color: '#FFFFFF',
+    textAlign: "center",
+    fontSize: 20,
+    fontWeight: "bold",
+    paddingRight: 10,
+  },
   titleback:{
     width: "60%",
     color: '#FFFFFF',
@@ -261,8 +270,9 @@ const header = StyleSheet.create({
     marginLeft: 100
   },
   imageback: {
-    height: 33,
-    width: 33,
+    height: 40,
+    width: 20,
+    marginLeft: 10,
   },
   image2: {
     height: 30,

@@ -3,17 +3,39 @@ import { Text, View, TouchableOpacity, Dimensions,StyleSheet, Image, TouchableNa
 const {height} = Dimensions.get('window')
 
 export default class ProfileComponent extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      editable: false,
+    }
+  }
 
   render() {
     return (
       <View style={user.container}>
         <View style={user.top}>
           <View style={user.head}>
-          <TouchableOpacity
-           style={user.edit}
-          >
-          <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
-          </TouchableOpacity>
+          {this.state.editable?
+            <View style={user.topavatar}>
+              <TouchableOpacity
+              style={user.edituser}
+              onPress={()=>this.setState({editable: !this.state.editable})}
+              >
+                <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
+              </TouchableOpacity>
+              <TouchableOpacity
+              style={user.edituser}
+              >
+                <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
+              </TouchableOpacity>
+            </View>:
+            <TouchableOpacity
+            style={user.edit}
+            onPress={()=>this.setState({editable: !this.state.editable})}
+            >
+              <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
+            </TouchableOpacity>
+          }
           <View elevation={10} style={sha.containerin}>
           <Image style={user.avatar} source={require('../../images/people.png')}/>
           </View>
@@ -106,15 +128,30 @@ const user = StyleSheet.create({
     justifyContent: "center",
     backgroundColor: "#2E7866"
   },
+  topavatar:{
+    width: "100%",
+    paddingLeft: 20,
+    paddingRight: 20,
+    flexDirection: 'row',
+    justifyContent: "space-between"
+  },
   textDetail: {
      
     fontSize: 16,
     color: "#fff"
   },
+  edituser:{
+    alignItems: "center",
+    justifyContent: "center",
+    height: 40,
+    width: 40,
+    borderRadius: 50,
+    backgroundColor: "#F2C640"
+  },
   edit:{
     alignItems: "center",
     justifyContent: "center",
-    left: 120,
+    left: 117,
     height: 40,
     width: 40,
     borderRadius: 50,

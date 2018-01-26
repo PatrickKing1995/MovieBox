@@ -1,14 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity, RefreshControl  } from 'react-native';
 import HeaderMovieContainer from '../containers/HeaderMovieContainer';
-import flastlistData from './popular'
 
 
-const Item =(item,view,index)=>(
-  view ? Grid(item,index):List(item, index)
+const Item =(item,view,index,open)=>(
+  view ? Grid(item,index, open):List(item, index, open)
 )
 
-const List = (item, index)=>(
+const List = (item, index,open)=>(
   <View style={[list.container, {backgroundColor: index%2 == 0 ?"#fff":"#f1f1f1"}]}>
       <View style={list.title}>
         <Text style={list.name}>{item.title}</Text>
@@ -20,7 +19,7 @@ const List = (item, index)=>(
       <View style={list.detail}>
       <TouchableOpacity
       style={{width: "40%", height: 200}}
-      onPress={}
+      onPress={()=>this.open(item.id)}
       >
         <Image
           style={list.image}
@@ -47,13 +46,14 @@ const List = (item, index)=>(
     </View>
 )
 
-const Grid=(item, index)=>(
+const Grid=(item, index,open)=>(
   <View style={[moduleview.containermodule, {paddingTop: 12,
     paddingBottom: 12,
     paddingLeft: index%2==0?12:6,
     paddingRight:index%2==0?6:12,}]}>
     <TouchableOpacity
     style={{width: "100%", height: 200}}
+    onPress={()=>this.open(item.id)}
     >
       <Image
         style={moduleview.image}
@@ -73,6 +73,11 @@ export default class MovieComponent extends Component {
       filter: 'popular',
       dataSource: null
     };
+  }
+
+  _onClickDetail=(id)=>{
+    this.props.fetchDetail(id)
+    this.props.navigation.navigate("Screen_Detail")
   }
 
   componentDidMount(){
@@ -109,7 +114,7 @@ export default class MovieComponent extends Component {
           }
           data={this.props.items}
           numColumns={this.props.kindView?2:1}
-          renderItem={({item, index}) => Item(item,this.props.kindView, index)}
+          renderItem={({item, index}) => Item(item,this.props.kindView, index,open=(id)=>this._onClickDetail(id))}
           key={this.props.kindView?1:0}
         />
       </View>

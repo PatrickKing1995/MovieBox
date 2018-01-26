@@ -4,57 +4,64 @@ import{FavorHearder} from '../route/Header';
 import flastlistData from './popular'
 
 
-export class Items extends Component {
-  constructor(props){
+// export class Items extends Component {
+//   constructor(props){
+//     super(props);
+//     this.state = {
+//       favor: true,
+//     }
+//     console.ignoredYellowBox = ["VirtualizedList"];
+//   }
+//   render(){
+//     return(
+//       <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
+//         <View style={list.title}>
+//           <Text style={list.name}>{this.props.item.title}</Text>
+//           <TouchableOpacity
+//             onPress={()=>{this.setState({favor: !this.state.favor})}}
+//           >
+//             {this.state.favor? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
+//           </TouchableOpacity>
+//         </View>
+//         <View style={list.detail}>
+//         <TouchableOpacity
+//         style={{width: "40%", height: 200}}
+//         >
+//           <Image
+//             style={list.image}
+//             source={{uri: 'http://image.tmdb.org/t/p/w185'+this.props.item.poster_path}}
+//           />
+//         </TouchableOpacity>
+//         <View style={list.desp}>
+//           <View style={list.release}>
+//             <Text style={list.text}>Release date:</Text>
+//             <Text style={list.infor}>{this.props.item.release_date}</Text>
+//           </View>
+//          <View style={list.rate}>
+//           <Text style={list.text}>Rating:</Text>
+//           <Text style={list.infor}>{this.props.item.vote_average}<Text style={list.text}>/10</Text></Text>
+//          </View>
+//          <View style={list.over}>
+//           <Text style={list.inforo}>Overview:</Text>
+//          </View>
+//           <View style={list.overview}>
+//             <Text style={list.texto} numberOfLines={4}>{this.props.item.overview}</Text>
+//           </View>
+//         </View>  
+//         </View>
+//       </View>
+//     )
+//   }
+// }
+
+export default class FavoristComponent extends Component {
+    constructor(props){
     super(props);
     this.state = {
       favor: true,
     }
     console.ignoredYellowBox = ["VirtualizedList"];
   }
-  render(){
-    return(
-      <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
-        <View style={list.title}>
-          <Text style={list.name}>{this.props.item.title}</Text>
-          <TouchableOpacity
-            onPress={()=>{this.setState({favor: !this.state.favor})}}
-          >
-            {this.state.favor? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
-          </TouchableOpacity>
-        </View>
-        <View style={list.detail}>
-        <TouchableOpacity
-        style={{width: "40%", height: 200}}
-        >
-          <Image
-            style={list.image}
-            source={{uri: 'http://image.tmdb.org/t/p/w185'+this.props.item.poster_path}}
-          />
-        </TouchableOpacity>
-        <View style={list.desp}>
-          <View style={list.release}>
-            <Text style={list.text}>Release date:</Text>
-            <Text style={list.infor}>{this.props.item.release_date}</Text>
-          </View>
-         <View style={list.rate}>
-          <Text style={list.text}>Rating:</Text>
-          <Text style={list.infor}>{this.props.item.vote_average}<Text style={list.text}>/10</Text></Text>
-         </View>
-         <View style={list.over}>
-          <Text style={list.inforo}>Overview:</Text>
-         </View>
-          <View style={list.overview}>
-            <Text style={list.texto} numberOfLines={4}>{this.props.item.overview}</Text>
-          </View>
-        </View>  
-        </View>
-      </View>
-    )
-  }
-}
-
-export default class FavoristComponent extends Component {
   onClick_User = () => {
     this.props.navigation.navigate('DrawerOpen');
   };
@@ -62,12 +69,12 @@ export default class FavoristComponent extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#f9f8fd"  }}>
         <FavorHearder open={() => this.onClick_User()}/>
-        <FlatList
+        {/* <FlatList
           data={flastlistData}
           renderItem={({item, index}) => {
             return <Items item={item} index={index}/>;
           }}
-        />
+        /> */}
       </View>
     )
   }
