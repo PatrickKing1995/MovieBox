@@ -13,7 +13,6 @@ const List = (item, index)=>(
       <View style={list.title}>
         <Text style={list.name}>{item.title}</Text>
         <TouchableOpacity
-          // onPress={()=>{this.setState({favor: !this.state.favor})}}
         >
           {false? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
         </TouchableOpacity>
@@ -21,6 +20,7 @@ const List = (item, index)=>(
       <View style={list.detail}>
       <TouchableOpacity
       style={{width: "40%", height: 200}}
+      onPress={}
       >
         <Image
           style={list.image}
@@ -79,9 +79,9 @@ export default class MovieComponent extends Component {
     this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.state.filter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
   }
 
-  componentWillUpdate(){
-    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US')
-  }
+  // componentWillUpdate(){
+  //   this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
+  // }
 
 
 

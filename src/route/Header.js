@@ -177,6 +177,29 @@ export  class AllRemind extends Component {
   }
 }
 
+export  class Detail extends Component {
+  render() {
+    return (
+        <View style={header.wrapp} elevation={20}>
+            <View style={[header.container, {backgroundColor: '#2E7866'}]}>
+            <View style={header.statusbar}>
+            </View>
+              <View style={header.rapback}>
+                <TouchableOpacity
+                style={header.back}
+                onPress={this.props.open}
+                  >
+                    <Image style={header.imageback} source={require('../../icons/left.png')}/>
+                    <Text style={header.backText}>Back</Text>
+                </TouchableOpacity>
+                <Text style={header.titleback}>nameFilm</Text>
+              </View>
+            </View>
+        </View>
+    )
+  }
+}
+
 const header = StyleSheet.create({
   statusbar: {
     height: "30%"
@@ -202,7 +225,7 @@ const header = StyleSheet.create({
     shadowOpacity: 1,
   },
   container: {
-    height: 70,
+    height: 80,
   },
   rap:  {
     flex: 1, 
