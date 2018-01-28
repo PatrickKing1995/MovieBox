@@ -112,6 +112,9 @@ export default class MovieComponent extends Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }
+          initialNumToRender={50}
+        maxToRenderPerBatch={10}
+        windowSize={50}
           data={this.props.items}
           numColumns={this.props.kindView?2:1}
           renderItem={({item, index}) => Item(item,this.props.kindView, index,open=(id)=>this._onClickDetail(id))}
@@ -146,7 +149,7 @@ const list = StyleSheet.create({
     paddingTop: 5,
     paddingBottom: 10,
     paddingLeft:10,
-    paddingRight:20,
+    paddingRight:10,
   },
   title: {
     flex: 1,

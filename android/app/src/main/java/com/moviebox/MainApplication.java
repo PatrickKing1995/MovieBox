@@ -10,6 +10,8 @@ import com.facebook.soloader.SoLoader;
 
 import java.util.Arrays;
 import java.util.List;
+import org.pgsqlite.SQLitePluginPackage;
+
 
 public class MainApplication extends Application implements ReactApplication {
 
@@ -42,4 +44,11 @@ public class MainApplication extends Application implements ReactApplication {
     super.onCreate();
     SoLoader.init(this, /* native exopackage */ false);
   }
+  
+  @Override
+    protected List<ReactPackage> getPackages() {
+      return Arrays.<ReactPackage>asList(
+        new SQLitePluginPackage(),   // register SQLite Plugin here
+        new MainReactPackage());
+    }
 }

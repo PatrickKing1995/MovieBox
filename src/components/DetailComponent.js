@@ -8,10 +8,10 @@ const {width,height} = Dimensions.get('window')
 
 const Item = (item,index)=>(
         <View style={details.charac}>
-          <View style={details.topCharac}>
+          <View style={[details.topCharac,{borderWidth: item.profile_path==null?1:0, borderColor: item.profile_path==null?"#DADCDB":"#fff"}]}>
           <Image
             style={details.imageCharac}
-            source={{uri: 'http://image.tmdb.org/t/p/w185'+item.profile_path}}
+            source={item.profile_path==null?require('../../images/notfound.png'):{uri: 'http://image.tmdb.org/t/p/w185'+item.profile_path}}
           />
           </View>
           <View style={details.bottomCharac}>
