@@ -4,7 +4,8 @@ import { View,
     ScrollView,
     StyleSheet,
     Image,
-    Dimensions
+    Dimensions,
+    KeyboardAvoidingView
  } from 'react-native';
 import { StackNavigator, TabNavigator, DrawerNavigator, DrawerItems } from 'react-navigation';
 import {Tab} from './Tab';

@@ -1,11 +1,45 @@
 import React, { Component } from 'react'
-import { Text,TextInput, View, TouchableOpacity, Dimensions,StyleSheet, Image,AsyncStorage, TouchableNativeFeedback } from 'react-native';
-const {height} = Dimensions.get('window')
+import { Text,TextInput, View, TouchableOpacity,Platform, Dimensions,StyleSheet,KeyboardAvoidingView, Image,AsyncStorage, TouchableNativeFeedback } from 'react-native';
+import DatePicker from "react-native-datepicker";
+const {height} = Dimensions.get('window');
+var ImagePicker = require('react-native-image-picker');
 
 const NAME_USER = "name_user";
 const DATE_USER = "date_user";
 const MAIL_USER = "mail_user";
 const GENDER_USER = "gender_user";
+const AVATAR_USER = "avatar_uer"
+// More info on all the options is below in the README...just some common use cases shown here
+var options = {
+  title: 'Select Avatar',
+  customButtons: [
+    {name: 'fb', title: 'Choose Photo from Camera Roll'},
+  ],
+  storageOptions: {
+    skipBackup: true,
+    path: 'images'
+  }
+};
+
+let pickAvatar=(image)=>{
+  ImagePicker.showImagePicker(options, (response) => {
+    console.log('Response = ', response);
+  
+    if (response.didCancel) {
+      console.log('User cancelled image picker');
+    }
+    else if (response.error) {
+      console.log('ImagePicker Error: ', response.error);
+    }
+    else if (response.customButton) {
+      console.log('User tapped custom button: ', response.customButton);
+    }
+    else {
+      let source = { uri: response.uri };
+      image(source);
+    }
+  });
+}
 
 export default class ProfileComponent extends Component {
   constructor(props){
@@ -16,6 +50,7 @@ export default class ProfileComponent extends Component {
       dateuser: null,
       mailuser: null,
       gender: null,
+      avatarSource: null,
     }
   }
 
@@ -52,13 +87,17 @@ export default class ProfileComponent extends Component {
         this.setState({gender: item})
       }
     });
+    const avatar = await AsyncStorage.getItem(AVATAR_USER,(err, item)=>{
+      this.setState({avatarSource: JSON.parse(item)})
+  });
   }
 
-  async setUserInfor(name, date, mail, gender){
+  async setUserInfor(name, date, mail, gender, avatar){
     await AsyncStorage.setItem(NAME_USER,name)
     await AsyncStorage.setItem(DATE_USER,date)
     await AsyncStorage.setItem(MAIL_USER,mail)
     await AsyncStorage.setItem(GENDER_USER,gender)
+    await AsyncStorage.setItem(AVATAR_USER,JSON.stringify(avatar))
     this.getUserInfor()
     this.setState({editable: !this.state.editable})
   }
@@ -68,12 +107,12 @@ export default class ProfileComponent extends Component {
     this.setState({editable: !this.state.editable})
   }
 
-  render() {
-    return (
-      <View style={user.container}>
-        {
-          this.state.editable?
-          <View style={user.editarea}>
+  show(){
+    pickAvatar(source=>this.setState({avatarSource: source}));
+  }
+
+  editable=()=>(
+    <View style={user.editarea}>
             <View style={user.buttedit}>
               <TouchableOpacity
               style={user.cancel}
@@ -83,57 +122,88 @@ export default class ProfileComponent extends Component {
               </TouchableOpacity>
               <TouchableOpacity
               style={user.done}
-              onPress={()=>this.setUserInfor(this.state.nameuser, this.state.dateuser, this.state.mailuser, this.state.gender)}
+              onPress={()=>this.setUserInfor(this.state.nameuser, this.state.dateuser, this.state.mailuser, this.state.gender, this.state.avatarSource)}
               >
                 <Image style={user.bttedit} source={require('../../icons/check.png')}/>
               </TouchableOpacity>
             </View>
             <View style={user.profilearea}>
-                <View style={user.head}>
+                <View style={user.headedit}>
                 <View elevation={10} style={sha.containerin}>
-                <Image style={user.avatar} source={require('../../images/people.png')}/>
+                <TouchableOpacity
+                  onPress={this.show.bind(this)}
+                >
+                  <Image style={user.avatar} source={this.state.avatarSource==null?require('../../images/people.png'):this.state.avatarSource}/>
+                </TouchableOpacity>
                 </View>
                   <TextInput 
-                  placeholder={this.state.nameuser}
-                  keyboardType="default"
                   underlineColorAndroid="transparent"
                   placeholderTextColor='#fff'
                   onChangeText={(nameuser) => this.setState({nameuser})}
+                  value={this.state.nameuser}
                   style={user.nameText}/>
                 </View>
-                <View style={user.infor}>
+                <View style={user.inforedit}>
                   <View style={user.list}>
                     <Image style={user.icon} source={require('../../icons/cake.png')}/>
-                    <TextInput 
-                      placeholder='Huy'
-                      underlineColorAndroid="transparent"
-                      placeholderTextColor='#fff'
-                      onChangeText={(dateuser) => this.setState({dateuser})}
-                      style={user.textEE}/>
+                    <DatePicker
+                      style={{ width: 200}}
+                      date={this.state.dateuser}
+                      mode="date"
+                      placeholder={this.state.dateuser}
+                      format="DD/MM/YYYY"
+                      minDate="01-01-1800"
+                      maxDate="01-01-3000"
+                      confirmBtnText="Confirm"
+                      cancelBtnText="Cancel"
+                      customStyles={{
+                        dateIcon: {
+                          position: "absolute",
+                          left: 0,
+                          top: 4,
+                          tintColor: "#566a81",
+                          marginLeft: 0
+                        },
+                        dateInput: {
+                          marginLeft: 10
+                        }
+                      }}
+                      onDateChange={date => {
+                        this.setState({ dateuser: date.replace(/-/g, "/") });
+                      }}
+                    />
                   </View>
                   <View style={user.list}>
                     <Image style={user.icon} source={require('../../icons/email-variant.png')}/>
                     <TextInput 
-                      placeholder={this.state.mailuser}
                       numberOfLines= {1}
                       underlineColorAndroid="transparent"
                       placeholderTextColor='#fff'
                       onChangeText={(mailuser) => this.setState({mailuser})}
+                      value={this.state.mailuser}
                       style={user.textEE}/>
                   </View>
                   <View style={user.list}>
                     <Image style={user.icon} source={require('../../icons/account-outline.png')}/>
                     <TextInput 
-                      placeholder={this.state.gender}
                       numberOfLines= {1}
                       underlineColorAndroid="transparent"
                       placeholderTextColor='#fff'
                       onChangeText={(gender) => this.setState({gender})}
+                      value={this.state.gender} 
                       style={user.textEE}/>
                   </View>
                   </View>
             </View>
-          </View>:
+          </View>
+  )
+
+  render() {
+    return (
+      <View style={user.container}>
+        {
+          this.state.editable?
+          this.editable():
           <View style={user.editarea}>
                 <View style={user.top}>
               <View style={user.head}>
@@ -144,14 +214,14 @@ export default class ProfileComponent extends Component {
                   <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
                 </TouchableOpacity>
               <View elevation={10} style={sha.containerin}>
-              <Image style={user.avatar} source={require('../../images/people.png')}/>
+              <Image style={user.avatar} source={this.state.avatarSource==null?require('../../images/people.png'):this.state.avatarSource}/>
               </View>
                 <Text style={user.nameText}>{this.state.nameuser}</Text>
               </View>
               <View style={user.infor}>
                 <View style={user.list}>
                   <Image style={user.icon} source={require('../../icons/cake.png')}/>
-                  <Text style={user.text}>{this.state.dateuser}</Text>
+                  <Text style={user.textBD}>{this.state.dateuser}</Text>
                 </View>
                 <View style={user.list}>
                   <Image style={user.icon} source={require('../../icons/email-variant.png')}/>
@@ -214,7 +284,6 @@ const sha=StyleSheet.create({
 
 const user = StyleSheet.create({
   container: {
-    flex: 1,
     justifyContent: "center",
     backgroundColor: "#3F485B",
   },
@@ -342,11 +411,21 @@ const user = StyleSheet.create({
     width: "100%",
     height: "85%",
   },
+  textBD:{
+    paddingTop: 5,
+    paddingLeft: 10,
+    fontSize: 18,
+    width: 200,
+    color: "#fff",
+    alignItems: 'flex-start',
+    justifyContent: 'center'
+  },
   text: {
     justifyContent: "center", 
     paddingLeft: 10,
     fontSize: 18,
     width: 200,
+    height: 30,
     color: "#fff"
   },
   avatar: {
@@ -372,6 +451,14 @@ const user = StyleSheet.create({
     flex: 1,
     height: "40%",
   },
+  inforedit:{
+    height: "40%",
+  },
+  headedit:{
+    paddingBottom: 15,
+    alignItems: 'center',
+    justifyContent: 'center',
+  },
   head: {
     paddingBottom: 15,
     height: "60%",
@@ -392,6 +479,7 @@ const user = StyleSheet.create({
   },
   profilearea:{
     height: '80%',
+    justifyContent: "center",
   },
   top:{
     height: '65%',
