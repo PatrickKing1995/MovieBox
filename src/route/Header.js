@@ -1,6 +1,6 @@
 import React, { Component } from 'react';
 import { View, Text, StatusBar,Picker,StyleSheet,Modal, Image, TouchableOpacity, BackHandler } from 'react-native';
-
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export  class MoviesHearder extends Component {
 
@@ -178,6 +178,24 @@ export  class AllRemind extends Component {
 }
 
 export  class Detail extends Component {
+  constructor(props){
+    super(props);
+    this.state={
+      date: null,
+      time: null,
+      isDateTimePickerVisible: false,
+    }
+  }
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (date) => {
+    alert(date);
+    this._hideDateTimePicker();
+  };
+
   render() {
     return (
         <View style={header.wrapp} elevation={20}>
@@ -193,6 +211,19 @@ export  class Detail extends Component {
                     <Text style={header.backText}>Back</Text>
                 </TouchableOpacity>
                 <Text style={header.titlebackDetail} numberOfLines={1}>{this.props.name}</Text>
+                <TouchableOpacity
+                style={header.remind}
+                onPress={()=>this._showDateTimePicker()}
+                  >
+                    <Image style={header.imageremind} source={require('../../icons/bell-plus.png')}/>
+                </TouchableOpacity>
+                <DateTimePicker
+                mode='datetime'
+                isVisible={this.state.isDateTimePickerVisible}
+                onConfirm={this._handleDatePicked}
+                onCancel={this._hideDateTimePicker}
+                minimumDate='2014/09/10'
+              />
               </View>
             </View>
         </View>
@@ -204,9 +235,18 @@ const header = StyleSheet.create({
   statusbar: {
     height: "30%"
   },
+  remind:{
+    width: "20%",
+    flexDirection: "row",
+    justifyContent: "center",
+    alignItems: "center"
+  },
+  imageremind:{
+    height: 30,
+    width: 30
+  },
   back: {
-    flex: 1,
-    width: "40%",
+    width: "30%",
     flexDirection: "row",
     justifyContent: "flex-start",
     alignItems: "center"
@@ -239,7 +279,7 @@ const header = StyleSheet.create({
     flex: 1, 
     flexDirection: 'row',
     alignItems: 'center',
-    justifyContent: 'flex-start', 
+    justifyContent: 'space-between', 
     paddingRight: 5,
   },
   picker:  {
@@ -252,7 +292,7 @@ const header = StyleSheet.create({
     color: '#FFFFFF'
   },
   titlebackDetail:{
-    width: "75%",
+    width: "50%",
     color: '#FFFFFF',
     textAlign: "center",
     fontSize: 20,

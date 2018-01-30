@@ -13,13 +13,14 @@ const AVATAR_USER = "avatar_uer"
 var options = {
   title: 'Select Avatar',
   customButtons: [
-    {name: 'fb', title: 'Choose Photo from Camera Roll'},
+    {name: 'fb', title: 'Choose Photo from Facebook'},
   ],
   storageOptions: {
     skipBackup: true,
     path: 'images'
   }
 };
+
 
 let pickAvatar=(image)=>{
   ImagePicker.showImagePicker(options, (response) => {
@@ -51,6 +52,8 @@ export default class ProfileComponent extends Component {
       mailuser: null,
       gender: null,
       avatarSource: null,
+      dataGender: ['Male','Female'],
+      checked: 0
     }
   }
 
@@ -82,9 +85,10 @@ export default class ProfileComponent extends Component {
     });
     const gender = await AsyncStorage.getItem(GENDER_USER,(err, item)=>{
       if(item==null){
-        this.setState({gender: 'Male'})
+        this.setState({gender: ''})
       } else {
-        this.setState({gender: item})
+        item=='Male'?
+        this.setState({gender: item, checked: 0}):this.setState({gender: item, checked: 1})
       }
     });
     const avatar = await AsyncStorage.getItem(AVATAR_USER,(err, item)=>{
@@ -110,6 +114,8 @@ export default class ProfileComponent extends Component {
   show(){
     pickAvatar(source=>this.setState({avatarSource: source}));
   }
+
+  
 
   editable=()=>(
     <View style={user.editarea}>
@@ -141,13 +147,13 @@ export default class ProfileComponent extends Component {
                   placeholderTextColor='#fff'
                   onChangeText={(nameuser) => this.setState({nameuser})}
                   value={this.state.nameuser}
-                  style={user.nameText}/>
+                  style={user.nameTextEdit}/>
                 </View>
                 <View style={user.inforedit}>
-                  <View style={user.list}>
+                  <View style={user.listEdit}>
                     <Image style={user.icon} source={require('../../icons/cake.png')}/>
                     <DatePicker
-                      style={{ width: 200}}
+                      style={{justifyContent: "flex-end"}}
                       date={this.state.dateuser}
                       mode="date"
                       placeholder={this.state.dateuser}
@@ -173,25 +179,49 @@ export default class ProfileComponent extends Component {
                       }}
                     />
                   </View>
-                  <View style={user.list}>
+                  <View style={user.listEdit}>
                     <Image style={user.icon} source={require('../../icons/email-variant.png')}/>
-                    <TextInput 
-                      numberOfLines= {1}
-                      underlineColorAndroid="transparent"
-                      placeholderTextColor='#fff'
-                      onChangeText={(mailuser) => this.setState({mailuser})}
-                      value={this.state.mailuser}
-                      style={user.textEE}/>
+                    
+                      <TextInput
+                        disableFullscreenUI={true}
+                        underlineColorAndroid="transparent"
+                        placeholderTextColor='#fff'
+                        multiline={false}
+                        keyboardType= "email-address"
+                        onChangeText={(mailuser) => this.setState({mailuser})}
+                        value={this.state.mailuser}
+                        style={user.textEE}/>
+                    
                   </View>
-                  <View style={user.list}>
+                  <View style={user.listEdit}>
                     <Image style={user.icon} source={require('../../icons/account-outline.png')}/>
-                    <TextInput 
-                      numberOfLines= {1}
-                      underlineColorAndroid="transparent"
-                      placeholderTextColor='#fff'
-                      onChangeText={(gender) => this.setState({gender})}
-                      value={this.state.gender} 
-                      style={user.textEE}/>
+                      <View style={{flexDirection: 'row', justifyContent: "center", alignItems: 'flex-start'}}>
+                      {this.state.dataGender.map((data, key)=>{
+                          return(
+                            <View key={key} style={radio.container}>
+                              {
+                                this.state.checked==key?
+                                <TouchableOpacity
+                                  style={radio.buttRadio}
+                                >
+                                  <Image style={radio.imageRadio} source={require('../../icons/marked.png')}/>
+                                  <Text style={radio.textRadio}>{data}</Text>
+                                </TouchableOpacity>
+                                :
+                                <TouchableOpacity
+                                  style={radio.buttRadio}
+                                  onPress={()=>{this.setState({checked: key,gender: data})}}
+                                >
+                                  <Image style={radio.imageRadio} source={require('../../icons/blank.png')}/>
+                                  <Text style={radio.textRadio}>{data}</Text>
+                                </TouchableOpacity>
+                              }
+                            </View>
+                          )
+                        })
+                      }
+                      </View>
+                    
                   </View>
                   </View>
             </View>
@@ -227,9 +257,9 @@ export default class ProfileComponent extends Component {
                   <Image style={user.icon} source={require('../../icons/email-variant.png')}/>
                   <Text style={user.text}>{this.state.mailuser}</Text>
                 </View>
-                <View style={user.list}>
+                <View style={user.listGender}>
                   <Image style={user.icon} source={require('../../icons/account-outline.png')}/>
-                  <Text style={user.text}>{this.state.gender}</Text>
+                  <Text style={user.textDate}>{this.state.gender}</Text>
                 </View>
               </View>
             </View>
@@ -386,6 +416,23 @@ const user = StyleSheet.create({
     justifyContent: "flex-start",
     alignItems: 'center',
   },
+  listEdit:{  
+    marginLeft: 10,
+    marginBottom: 10,
+    height: 40,
+    flexDirection: 'row',
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  listGender: {
+    // borderBottomWidth: 1,
+    flex: 1,
+    marginLeft: 10,
+    marginBottom: 10,
+    flexDirection: 'row',
+    justifyContent: "flex-start",
+    alignItems: 'baseline',
+  },
   textreminder:{
     padding: 15,
     alignItems: "center", 
@@ -425,7 +472,12 @@ const user = StyleSheet.create({
     paddingLeft: 10,
     fontSize: 18,
     width: 200,
-    height: 30,
+    color: "#fff"
+  },
+  textDate: {
+    paddingLeft: 10,
+    fontSize: 18,
+    width: 200,
     color: "#fff"
   },
   avatar: {
@@ -434,7 +486,15 @@ const user = StyleSheet.create({
     height: 90,
     width: 90,
   },
+  nameTextEdit: {
+    fontSize: 20,
+    width: "90%",
+    textAlign: "center",
+    fontWeight: "bold",
+    color: "#fff"
+  },
   nameText: {
+    paddingTop: 10,
     fontSize: 20,
     width: "90%",
     textAlign: "center",
@@ -444,23 +504,23 @@ const user = StyleSheet.create({
   textEE:{
     paddingLeft: 10,
     fontSize: 18,
-    width: 200,
+    alignSelf: "flex-end",
     color: "#fff"
   },
   infor: {
-    flex: 1,
     height: "40%",
   },
   inforedit:{
-    height: "40%",
+    height: "60%",
+    justifyContent: "flex-start",
+    alignItems: "flex-start"
   },
   headedit:{
-    paddingBottom: 15,
     alignItems: 'center',
+    height: "40%",
     justifyContent: 'center',
   },
   head: {
-    paddingBottom: 15,
     height: "60%",
     alignItems: 'center',
     justifyContent: 'flex-end',
@@ -470,7 +530,7 @@ const user = StyleSheet.create({
   },
   buttedit: {
     width: "100%",
-    height: "20%",
+    height: "22%",
     paddingLeft: 20,
     paddingRight: 20,
     flexDirection: 'row',
@@ -478,7 +538,7 @@ const user = StyleSheet.create({
     justifyContent: "space-between"
   },
   profilearea:{
-    height: '80%',
+    height: '78%',
     justifyContent: "center",
   },
   top:{
@@ -496,4 +556,28 @@ const user = StyleSheet.create({
     justifyContent: 'center',
     // backgroundColor: '#f06966'
   }
+})
+
+const radio= StyleSheet.create({
+  container:{
+    marginLeft: 10,
+    flexDirection: 'row',
+    width: 125,
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  buttRadio:{
+    width: 100,
+    flexDirection: "row",
+    justifyContent: "flex-start",
+    alignItems: "center"
+  },
+  imageRadio:{
+    width: 25,
+    height: 25
+  },
+  textRadio:{
+    fontSize: 15,
+    color: "white"
+  },
 })
