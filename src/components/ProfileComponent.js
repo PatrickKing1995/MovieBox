@@ -1,8 +1,10 @@
 import React, { Component } from 'react'
-import { Text,TextInput, View, TouchableOpacity,Platform, Dimensions,StyleSheet,KeyboardAvoidingView, Image,AsyncStorage, TouchableNativeFeedback } from 'react-native';
+import { Text,TextInput,FlatList, View, TouchableOpacity,Platform, Dimensions,StyleSheet,KeyboardAvoidingView, Image,AsyncStorage, TouchableNativeFeedback } from 'react-native';
 import DatePicker from "react-native-datepicker";
 const {height} = Dimensions.get('window');
 var ImagePicker = require('react-native-image-picker');
+import {queryAllReminder} from '../localdatabase/allSchemas';
+import realm from '../localdatabase/allSchemas';
 
 const NAME_USER = "name_user";
 const DATE_USER = "date_user";
@@ -53,8 +55,22 @@ export default class ProfileComponent extends Component {
       gender: null,
       avatarSource: null,
       dataGender: ['Male','Female'],
-      checked: 0
+      checked: 0,
+      listReminder: [],
     }
+    this.reloadData();
+    realm.addListener('change', () => {
+        this.reloadData();
+    });
+  }
+
+  reloadData = () => {
+    queryAllReminder().then((listReminder) => {
+        this.setState({ listReminder });
+    }).catch((error) => {
+        this.setState({ listReminder: [] });
+    });
+    console.log(`reloadData`);
   }
 
   componentWillMount(){
@@ -277,14 +293,19 @@ export default class ProfileComponent extends Component {
                 </TouchableOpacity>
               </View>
               <View style={user.listreminder}>
-                <View style={user.detail} elevation={10} >
-                  <Text style={user.textDetail}>The Dark Tower - 2017 - 5.6/10</Text>
-                  <Text style={user.textDetail}>2017-09-02 10:12</Text>
-                </View>
-                <View style={user.detail} elevation={10}>
-                  <Text style={user.textDetail}>The Dark Tower - 2017 - 5.6/10</Text>
-                  <Text style={user.textDetail}>2017-09-02 10:12</Text>
-                </View>
+              <FlatList
+                  data={this.state.listReminder}
+                  showsVerticalScrollIndicator={false}
+                  initialNumToRender={2}
+                  renderItem={({item, index}) => {
+                    return <View style={user.detail} elevation={10} >
+                    <Text style={user.textDetail}>{item.title} - {item.release_date.slice(0,4)} - {item.vote_average}/10</Text>
+                    <Text style={user.textDetail}>{item.dateremind}</Text>
+                  </View>;
+                  }}
+                  style={{width: '100%'}}
+                  keyExtractor={item => item.id}
+                />
               </View>
             </View>
           </View>
@@ -331,7 +352,7 @@ const user = StyleSheet.create({
     shadowRadius: 0,
     shadowOpacity: 0.6,
     flex:1,
-    margin: 10,
+    margin: 15,
     paddingLeft: 25,
     width: "100%",
     alignItems: "flex-start",

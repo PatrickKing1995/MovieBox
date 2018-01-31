@@ -16,16 +16,17 @@ const List = (item, index,open)=>(
           {false? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
         </TouchableOpacity>
       </View>
-      <View style={list.detail}>
-      <TouchableOpacity
+      <TouchableOpacity style={list.detail}
+      onPress={()=>this.open(item.id)}>
+      <View
       style={{width: "40%", height: 200}}
-      onPress={()=>this.open(item.id)}
+      // onPress={()=>this.open(item.id)}
       >
         <Image
           style={list.image}
           source={{uri: 'http://image.tmdb.org/t/p/w185'+item.poster_path}}
         />
-      </TouchableOpacity>
+      </View>
       <View style={list.desp}>
         <View style={list.release}>
           <Text style={list.text}>Release date:</Text>
@@ -42,7 +43,7 @@ const List = (item, index,open)=>(
           <Text style={list.texto} numberOfLines={4}>{item.overview}</Text>
         </View>
       </View>  
-      </View>
+      </TouchableOpacity>
     </View>
 )
 

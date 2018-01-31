@@ -5,14 +5,14 @@ const remindReducers = (reminds = [], action) => {
         case ADD_NEW_REMIND:
             return [
                 ...reminds,
-                {
-                    poster_path: action.item.poster_path,
-                    title: action.item.title,
-                    release_date: action.item.release_date,
-                    vote_average: action.item.vote_average,
-                    dateremind: action.date,
-                    deleted: false
-                }
+                // {
+                //     poster_path: action.item.poster_path,
+                //     title: action.item.title,
+                //     release_date: action.item.release_date,
+                //     vote_average: action.item.vote_average,
+                //     dateremind: action.date,
+                //     deleted: false
+                // }
             ]
         case DELETE_REMIND:
         return reminds.map(remind =>

@@ -2,6 +2,9 @@ import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image,Alert, TouchableOpacity  } from 'react-native';
 import {AllRemind} from '../route/Header';
 import reminders from './reminders';
+import {deleteReminder, queryAllReminder } from '../localdatabase/allSchemas';
+import realm from '../localdatabase/allSchemas';
+import PushNotification from 'react-native-push-notification';
 import Swipeout from 'react-native-swipeout'
 
 
@@ -13,7 +16,17 @@ export class Items extends Component {
       activeRowKey: null
     }
     console.ignoredYellowBox = ["VirtualizedList"];
+    console.ignoredYellowBox = ["Warning"];
   }
+
+  componentDidMount() {
+    PushNotification.configure({
+      onNotification: function(notification) {
+        console.log( 'NOTIFICATION:', notification );
+      },
+    });
+  }
+
   render(){
     const swipeSettings={
       autoClose: true,
@@ -34,7 +47,10 @@ export class Items extends Component {
               [
                 {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
                 {text: 'OK', onPress: () => {
-                  reminders.splice(this.props.index, 1);
+                  PushNotification.cancelLocalNotifications({id: this.props.item.id.toString()});
+                  deleteReminder(this.props.item.id).then().catch(error => {
+                    alert(`Failed to delete todoList with id = ${id}, error=${error}`);
+                });
                 }},
               ],
               { cancelable: false }
@@ -84,7 +100,24 @@ export class Items extends Component {
 export default class AllReminders extends Component {
   constructor(props){
     super(props);
+    this.state={
+      listReminder: [],
+    }
+    this.reloadData();
+    realm.addListener('change', () => {
+        this.reloadData();
+    });
   }
+  
+  reloadData = () => {
+    queryAllReminder().then((listReminder) => {
+        this.setState({ listReminder });
+    }).catch((error) => {
+        this.setState({ listReminder: [] });
+    });
+    console.log(`reloadData`);
+  }
+
   onClick_User = () => {
     this.props.navigation.goBack();
   };
@@ -95,10 +128,11 @@ export default class AllReminders extends Component {
         <AllRemind open={() => this.onClick_User()}/>
         <FlatList
           refreshing={true}
-          data={this.props.listRemind}
+          data={this.state.listReminder}
           renderItem={({item, index}) => {
             return <Items item={item} index={index}/>;
           }}
+          keyExtractor={item => item.id}
         />
       </View>
     )

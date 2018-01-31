@@ -137,6 +137,11 @@ android {
 }
 
 dependencies {
+    compile project(':react-native-push-notification')
+    compile ('com.google.android.gms:play-services-gcm:8.1.0') {
+        force = true;
+    }
+    compile project(':realm')
     compile project(':react-native-vector-icons')
     compile project(':react-native-image-picker')
     compile fileTree(dir: "libs", include: ["*.jar"])

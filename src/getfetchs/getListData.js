@@ -25,6 +25,7 @@ export function getDetailRemind(id,dateremind, dispatch, addNewRemind) {
     fetch('https://api.themoviedb.org/3/movie/'+id+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US')
         .then((response) => response.json())
         .then((items) => {
+            
             dispatch(addNewRemind(items,dateremind))
         });
 }

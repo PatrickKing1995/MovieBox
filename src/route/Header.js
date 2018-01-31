@@ -1,6 +1,8 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar,Picker,StyleSheet,Modal, Image, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Text, StatusBar,Picker,StyleSheet,ToastAndroid,Modal, Image, TouchableOpacity, BackHandler } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
+import { insertNewReminder } from '../localdatabase/allSchemas';
+import PushNotification from 'react-native-push-notification';
 
 export  class MoviesHearder extends Component {
 
@@ -193,11 +195,42 @@ export  class Detail extends Component {
 
   _handleDatePicked = (date) => {
     let month = +date.getMonth()+1;
-    let day = +date.getDate()+1;
-    this.props.addRemind(this.props.id,date.getFullYear()+'-'+month+'-'+day+'  '+date.getHours()+':'+date.getMinutes())
+    let day = +date.getDate();
+    let datereminder= date.getFullYear()+'-'+month+'-'+day+'  '+date.getHours()+':'+date.getMinutes();
+    const newReminders = {
+      id: this.props.id,
+      title: this.props.detailFilm.title,
+      poster_path: this.props.detailFilm.poster_path,
+      release_date: this.props.detailFilm.release_date,
+      vote_average: this.props.detailFilm.vote_average.toString(),
+      dateremind: datereminder,
+    };
+    insertNewReminder(newReminders).then(()=>{
+      PushNotification.localNotificationSchedule({
+        id: this.props.id.toString(),
+        message: this.props.detailFilm.title+'/'+datereminder,
+        date: date
+      });
+      ToastAndroid.showWithGravity(
+        'Reminder Success',
+        ToastAndroid.SHORT,
+        ToastAndroid.CENTER
+      );
+    }).catch((error) => {
+      alert(`Insert new error ${error}`);
+});
+    // this.props.addRemind()
+    
     this._hideDateTimePicker();
   };
 
+  componentDidMount() {
+    PushNotification.configure({
+      onNotification: function(notification) {
+        console.log( 'NOTIFICATION:', notification );
+      },
+    });
+  }
   render() {
     return (
         <View style={header.wrapp} elevation={20}>
@@ -212,7 +245,7 @@ export  class Detail extends Component {
                     <Image style={header.imageback} source={require('../../icons/left.png')}/>
                     <Text style={header.backText}>Back</Text>
                 </TouchableOpacity>
-                <Text style={header.titlebackDetail} numberOfLines={1}>{this.props.name}</Text>
+                <Text style={header.titlebackDetail} numberOfLines={2}>{this.props.name}</Text>
                 <TouchableOpacity
                 style={header.remind}
                 onPress={()=>this._showDateTimePicker()}
@@ -243,8 +276,8 @@ const header = StyleSheet.create({
     alignItems: "center"
   },
   imageremind:{
-    height: 30,
-    width: 30
+    height: 25,
+    width: 25
   },
   back: {
     width: "30%",
