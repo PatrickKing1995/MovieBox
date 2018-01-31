@@ -85,7 +85,7 @@ export default class ProfileComponent extends Component {
     });
     const gender = await AsyncStorage.getItem(GENDER_USER,(err, item)=>{
       if(item==null){
-        this.setState({gender: ''})
+        this.setState({gender: 'Male'})
       } else {
         item=='Male'?
         this.setState({gender: item, checked: 0}):this.setState({gender: item, checked: 1})
@@ -235,14 +235,16 @@ export default class ProfileComponent extends Component {
           this.state.editable?
           this.editable():
           <View style={user.editarea}>
-                <View style={user.top}>
+                <View style={user.buttAccount}>
+                  <TouchableOpacity
+                  style={user.edit}
+                  onPress={()=>this.setState({editable: !this.state.editable})}
+                  >
+                    <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
+                  </TouchableOpacity>
+                </View>
+              <View style={user.top}>
               <View style={user.head}>
-              <TouchableOpacity
-                style={user.edit}
-                onPress={()=>this.setState({editable: !this.state.editable})}
-                >
-                  <Image style={user.bttedit} source={require('../../icons/account-edit.png')}/>
-                </TouchableOpacity>
               <View elevation={10} style={sha.containerin}>
               <Image style={user.avatar} source={this.state.avatarSource==null?require('../../images/people.png'):this.state.avatarSource}/>
               </View>
@@ -508,7 +510,7 @@ const user = StyleSheet.create({
     color: "#fff"
   },
   infor: {
-    height: "40%",
+    height: "50%",
   },
   inforedit:{
     height: "60%",
@@ -521,32 +523,39 @@ const user = StyleSheet.create({
     justifyContent: 'center',
   },
   head: {
-    height: "60%",
+    height: "50%",
     alignItems: 'center',
-    justifyContent: 'flex-end',
+    justifyContent: 'center',
   },
   editarea:{
     height: '91%',
   },
   buttedit: {
     width: "100%",
-    height: "22%",
+    height: "15%",
     paddingLeft: 20,
     paddingRight: 20,
     flexDirection: 'row',
-    alignItems: "center",
-    justifyContent: "space-between"
+    alignItems: "flex-end",
+    justifyContent: "space-between",
+  },
+  buttAccount:{
+    height: "15%",
+    alignItems: 'center',
+    justifyContent: 'flex-end',
+    paddingLeft: 20,
+    paddingRight: 20,
   },
   profilearea:{
-    height: '78%',
+    height: '85%',
     justifyContent: "center",
   },
   top:{
-    height: '65%',
+    height: '55%',
     // backgroundColor: '#98d2c1'
   },
   center:{
-    height: '35%',
+    height: '30%',
     alignItems: 'center',
     justifyContent: 'center',
   },

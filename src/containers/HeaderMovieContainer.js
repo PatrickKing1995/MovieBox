@@ -15,7 +15,7 @@ const mapDispatchToProps = (dispatch)=>{
         },
         onClickFilter: (filter)=>{
             dispatch(switchFilter(filter));
-        },
+        }
     };
 }
 

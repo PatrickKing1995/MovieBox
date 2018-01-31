@@ -1,13 +1,13 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image,Alert, TouchableOpacity,Dimensions  } from 'react-native';
-import {Detail} from '../route/Header';
+import HeaderDetailContainer from '../containers/HeaderDetailContainer';
 import castcrew from './cast'
 import flastlistData from './popular';
 import castCrew from './cast'
 const {width,height} = Dimensions.get('window')
 
 const Item = (item,index)=>(
-        <View style={details.charac}>
+        <View key={index} style={details.charac}>
           <View style={[details.topCharac,{borderWidth: item.profile_path==null?1:0, borderColor: item.profile_path==null?"#DADCDB":"#fff"}]}>
           <Image
             style={details.imageCharac}
@@ -34,7 +34,7 @@ export default class DetailComponent extends Component {
   render() {
     return (
       <View style={{ flex: 1,  backgroundColor: "#f9f8fd"  }}>
-        <Detail open={() => this.onClick_User()} name={this.props.detailFilm.title} />
+        <HeaderDetailContainer open={() => this.onClick_User()} name={this.props.detailFilm.title} id={this.props.detailFilm.id}/>
         <View style={details.container}>
           <View style={details.top}>
             <View style={details.name}>

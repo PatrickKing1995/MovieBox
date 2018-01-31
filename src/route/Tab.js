@@ -11,7 +11,7 @@ import AboutComponent from '../components/AboutComponent';
 import FavoristComponent from '../components/FavoristComponent';
 import MovieContainer from '../containers/MovieContainer'
 import SettingComponent from '../components/SettingComponent';
-import AllReminders from '../components/AllReminders'
+import AllReminderContainer from '../containers/AllReminderContainer'
 import DetailContainer from '../containers/DetailContainer'
 const {height} = Dimensions.get('window')
 
@@ -23,7 +23,7 @@ export const Reminders = StackNavigator({
         }
     },
     Screen_All: {
-        screen: AllReminders,
+        screen: AllReminderContainer,
         navigationOptions: {
             header: null,
         }

@@ -50,10 +50,10 @@ export class Items extends Component {
     return(
       <Swipeout {...swipeSettings}>
           <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1",
-    paddingLeft: 10,
-    paddingRight:5,
-    paddingTop: this.props.index == 0 ? 10:5,
-    paddingBottom: 5}]}>
+          paddingLeft: 10,
+          paddingRight:5,
+          paddingTop: this.props.index == 0 ? 10:5,
+          paddingBottom: 5}]}>
           <View style={list.detail}>
             <TouchableOpacity
             style={{width: "30%", height: 100}}
@@ -68,7 +68,7 @@ export class Items extends Component {
               <Text style={list.text} numberOfLines={1}>{this.props.item.title} - {this.props.item.release_date.slice(0,4)} - {this.props.item.vote_average}/10</Text>
             </View>
             <View style={list.rate}>
-              <Text style={list.infor}>2017-09-16 10:12</Text>
+              <Text style={list.infor}>{this.props.item.dateremind}</Text>
             </View>
           </View>
             <View style={{width: "5%", alignItems: "center", justifyContent: "center"}}>
@@ -95,7 +95,7 @@ export default class AllReminders extends Component {
         <AllRemind open={() => this.onClick_User()}/>
         <FlatList
           refreshing={true}
-          data={reminders}
+          data={this.props.listRemind}
           renderItem={({item, index}) => {
             return <Items item={item} index={index}/>;
           }}

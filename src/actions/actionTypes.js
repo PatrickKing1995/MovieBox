@@ -3,5 +3,7 @@ export const SWITCH_FILTER = 'SWITCH_FILTER';
 export const ITEMS_FETCH_DATA_SUCCESS = 'ITEMS_FETCH_DATA_SUCCESS';
 export const GET_DETAIL = 'GET_DETAIL';
 export const GET_CAST = 'GET_CAST';
+export const ADD_NEW_REMIND = 'ADD_NEW_REMIND';
+export const DELETE_REMIND = 'DELETE_REMIND';
 
 

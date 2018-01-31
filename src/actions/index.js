@@ -1,4 +1,4 @@
-import {SWITCH_VIEW,ITEMS_FETCH_DATA_SUCCESS,GET_CAST,SWITCH_FILTER,GET_DETAIL} from './actionTypes';
+import {SWITCH_VIEW,ITEMS_FETCH_DATA_SUCCESS,GET_CAST,SWITCH_FILTER,GET_DETAIL,DELETE_REMIND,ADD_NEW_REMIND} from './actionTypes';
 
 export const switchView = ()=>{
     return{
@@ -31,4 +31,20 @@ export function itemsFetchDataSuccess(items) {
         type: ITEMS_FETCH_DATA_SUCCESS,
         items
     };
+}
+
+
+export const addNewRemind = (reminder,dateremind) => {
+    return {
+        type: ADD_NEW_REMIND,
+        item: reminder,
+        date: dateremind
+    }
+}
+
+export const deleteRemind = (reminder) => {
+    return {
+        type: DELETE_REMIND,
+        id: reminder.id
+    }
 }

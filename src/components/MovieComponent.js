@@ -112,10 +112,8 @@ export default class MovieComponent extends Component {
               onRefresh={this._onRefresh.bind(this)}
             />
           }
-          initialNumToRender={50}
-        maxToRenderPerBatch={10}
-        windowSize={50}
           data={this.props.items}
+          keyExtractor={(item, index) => index}
           numColumns={this.props.kindView?2:1}
           renderItem={({item, index}) => Item(item,this.props.kindView, index,open=(id)=>this._onClickDetail(id))}
           key={this.props.kindView?1:0}

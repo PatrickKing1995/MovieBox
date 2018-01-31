@@ -192,7 +192,9 @@ export  class Detail extends Component {
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
 
   _handleDatePicked = (date) => {
-    alert(date);
+    let month = +date.getMonth()+1;
+    let day = +date.getDate()+1;
+    this.props.addRemind(this.props.id,date.getFullYear()+'-'+month+'-'+day+'  '+date.getHours()+':'+date.getMinutes())
     this._hideDateTimePicker();
   };
 
@@ -222,7 +224,6 @@ export  class Detail extends Component {
                 isVisible={this.state.isDateTimePickerVisible}
                 onConfirm={this._handleDatePicked}
                 onCancel={this._hideDateTimePicker}
-                minimumDate='2014/09/10'
               />
               </View>
             </View>
