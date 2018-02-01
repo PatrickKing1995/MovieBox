@@ -1,6 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity, RefreshControl  } from 'react-native';
 import HeaderMovieContainer from '../containers/HeaderMovieContainer';
+import PopupDialog, { SlideAnimation, DialogTitle, ScaleAnimation } from 'react-native-popup-dialog';
 
 
 const Item =(item,view,index,open)=>(
@@ -71,7 +72,8 @@ export default class MovieComponent extends Component {
     super(props);
     this.state = {
       refreshing: false,
-      filter: 'popular',
+      filter: '',
+      dialogTitle: "Filter Movie",
       dataSource: null
     };
   }
@@ -82,7 +84,7 @@ export default class MovieComponent extends Component {
   }
 
   componentDidMount(){
-    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.state.filter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
+    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
   }
 
   // componentWillUpdate(){
@@ -93,7 +95,7 @@ export default class MovieComponent extends Component {
 
   _onRefresh() {
     this.setState({refreshing: true});
-    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
+    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
       this.setState({refreshing: false})
     
   }
@@ -101,11 +103,43 @@ export default class MovieComponent extends Component {
   onClick_User = () => {
     this.props.navigation.navigate('DrawerOpen');
   };
+  
 
   render() {
+    const { dialogTitle } = this.state;
     return (
       <View style={{ flex: 1,  backgroundColor: "#f9f8fd"  }}>
-        <HeaderMovieContainer open={() => this.onClick_User()}/>
+      <PopupDialog
+                ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                dialogTitle={<DialogTitle titleStyle={{backgroundColor: '#2E7866'}} titleTextStyle={{ fontSize: 18, color: '#fff', fontWeight: 'bold'}} title={dialogTitle} />}
+                width={0.5} height={0.35}
+                dialogAnimation={<SlideAnimation toValue={10} slideFrom={'bottom'}></SlideAnimation>}
+                dialogStyle={{backgroundColor: '#2c3e50'}}
+          >
+               <View style={{justifyContent: 'space-between', alignItems:'center', height: '70%', padding: 10}}>
+                  <TouchableOpacity
+                  onPress={()=>{this.props.onClickFilter('Popular'), this.props.fetchData('https://api.themoviedb.org/3/movie/popular?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1'), this.popupDialog.dismiss() }}
+                >
+                  <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>Popular</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>{this.props.onClickFilter('Top Rated'), this.props.fetchData('https://api.themoviedb.org/3/movie/top_rated?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1'), this.popupDialog.dismiss() }}
+                >
+                  <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>Top Rated</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>{this.props.onClickFilter('Now Playing'), this.props.fetchData('https://api.themoviedb.org/3/movie/now_playing?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1'), this.popupDialog.dismiss() }}
+                >
+                  <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>Now Playing</Text>
+                </TouchableOpacity>
+                <TouchableOpacity
+                  onPress={()=>{this.props.onClickFilter('Upcoming'), this.props.fetchData('https://api.themoviedb.org/3/movie/upcoming?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1'), this.popupDialog.dismiss() }}
+                >
+                  <Text style={{fontSize: 18, color: '#fff', fontWeight: 'bold'}}>Upcoming</Text>
+                </TouchableOpacity>
+               </View>
+        </PopupDialog>
+        <HeaderMovieContainer open={() => this.onClick_User()}  showModal={()=>this.popupDialog.show()}/>
         <FlatList
           refreshControl={
             <RefreshControl

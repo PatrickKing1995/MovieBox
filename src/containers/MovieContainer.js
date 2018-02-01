@@ -5,12 +5,14 @@ import {itemsFetchDataSuccess} from '../actions/index';
 import {getDetail} from '../getfetchs/getListData';
 import {getDetailSuccess} from '../actions/index'
 import {getCastSuccess} from '../actions/index'
+import {switchFilter} from '../actions';
 
 const mapStateToProps = state =>{
     return {
         kindView: state.viewReducer.view,
         kindFilter: state.filterReducer.filter,
         items: state.itemsReducer,
+        url: state.filterReducer.url,
     }
 }
 
@@ -22,6 +24,9 @@ const mapDispatchToProps = (dispatch)=>{
         fetchDetail: (id) => {
             getDetail(id,dispatch,getDetailSuccess,getCastSuccess )
         },
+        onClickFilter: (filter)=>{
+            dispatch(switchFilter(filter));
+        }
     };
 }
 

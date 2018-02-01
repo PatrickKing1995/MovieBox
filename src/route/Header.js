@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { View, Text, StatusBar,Picker,StyleSheet,ToastAndroid,Modal, Image, TouchableOpacity, BackHandler } from 'react-native';
+import { View, Text, StatusBar,Picker,StyleSheet,ToastAndroid, Image, TouchableOpacity, BackHandler } from 'react-native';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import { insertNewReminder } from '../localdatabase/allSchemas';
 import PushNotification from 'react-native-push-notification';
@@ -10,11 +10,11 @@ export  class MoviesHearder extends Component {
     super(props);
     this.state={
       show: false,
-      filter: "popular",
+      filter: "Popular",
       modalVisible: false,
     }
   }
-
+  
   openModal() {
     this.setState({modalVisible:true});
   }
@@ -24,33 +24,13 @@ export  class MoviesHearder extends Component {
   }
 
   componentWillMount(){
-    this.props.onClickFilter(this.state.filter)
+    this.props.onClickFilter('Popular')
   }
 
   render() {
     return (
+     
         <View style={header.wrapp} elevation={20}>
-        <Modal
-              transparent={true}
-              visible={this.state.modalVisible}
-              animationType={'fade'}
-              onRequestClose={() => this.closeModal()}
-          >
-            <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-              <View style={{flex:1, alignItems: 'center', justifyContent: 'center'}}>
-                <TouchableOpacity
-                  onPress={()=>{this.props.onClickFilter('popular');this.closeModal() }}
-                >
-                  <Text>Popular</Text>
-                </TouchableOpacity>
-                <TouchableOpacity
-                  onPress={()=>{this.props.onClickFilter('top_rated');this.closeModal() }}
-                >
-                  <Text>Top Rated</Text>
-                </TouchableOpacity>
-              </View>
-            </View>
-          </Modal>
             <View style={[header.container, {backgroundColor: '#2E7866'}]}>
             <View style={header.statusbar}>
             </View>
@@ -61,7 +41,7 @@ export  class MoviesHearder extends Component {
                     <Image style={header.image2} source={require('../../icons/menu.png')}/>
                 </TouchableOpacity>
                 <TouchableOpacity
-                onPress={()=>this.openModal()}
+                  onPress={this.props.showModal}
                   >
                     <Text style={header.title}>{this.props.kindFilter}</Text>
                 </TouchableOpacity>

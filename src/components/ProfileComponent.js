@@ -294,16 +294,17 @@ export default class ProfileComponent extends Component {
               </View>
               <View style={user.listreminder}>
               <FlatList
-                  data={this.state.listReminder}
+                  data={this.state.listReminder.slice(this.state.listReminder.length-2,this.state.listReminder.length)}
                   showsVerticalScrollIndicator={false}
                   initialNumToRender={2}
+                  scrollEnabled={false}
                   renderItem={({item, index}) => {
                     return <View style={user.detail} elevation={10} >
                     <Text style={user.textDetail}>{item.title} - {item.release_date.slice(0,4)} - {item.vote_average}/10</Text>
                     <Text style={user.textDetail}>{item.dateremind}</Text>
                   </View>;
                   }}
-                  style={{width: '100%'}}
+                  style={{width: "100%", height: "15%"}}
                   keyExtractor={item => item.id}
                 />
               </View>
@@ -351,9 +352,8 @@ const user = StyleSheet.create({
     },
     shadowRadius: 0,
     shadowOpacity: 0.6,
-    flex:1,
-    marginLeft: 15,
-    paddingLeft: 25,
+    margin: 15,
+    paddingLeft: 5,
     width: "100%",
     alignItems: "flex-start",
     justifyContent: "center",

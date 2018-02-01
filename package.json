@@ -13,6 +13,7 @@
     "react-native-image-picker": "^0.26.7",
     "react-native-modal-datetime-picker": "^4.13.0",
     "react-native-off-canvas-menu": "^0.1.31",
+    "react-native-popup-dialog": "^0.10.46",
     "react-native-push-notification": "^3.0.2",
     "react-native-swipeout": "^2.3.3",
     "react-native-vector-icons": "^4.5.0",
