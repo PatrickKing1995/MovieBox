@@ -1,21 +1,32 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity, RefreshControl  } from 'react-native';
 import HeaderMovieContainer from '../containers/HeaderMovieContainer';
+import {insertNewFavor, deleteFavor} from '../localdatabase/allSchemas';
+import realm from '../localdatabase/allSchemas';
 import PopupDialog, { SlideAnimation, DialogTitle, ScaleAnimation } from 'react-native-popup-dialog';
 
 
-const Item =(item,view,index,open)=>(
-  view ? Grid(item,index, open):List(item, index, open)
+const Item =(item,view,index,open, add, dele, favor)=>(
+  view ? Grid(item,index, open):List(item, index, open, add, dele, favor)
 )
 
-const List = (item, index,open)=>(
+const List = (item, index,open, add, dele, favor)=>(
   <View style={[list.container, {backgroundColor: index%2 == 0 ?"#fff":"#f1f1f1"}]}>
       <View style={list.title}>
         <Text style={list.name}>{item.title}</Text>
-        <TouchableOpacity
-        >
-          {false? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
-        </TouchableOpacity>
+          { favor.indexOf(item.id)!=-1?
+            <TouchableOpacity
+            onPress={()=>this.delete(item.id)}
+            >
+              <Image style={list.icon} source={require('../../icons/star.png')}/>
+            </TouchableOpacity>
+            :
+            <TouchableOpacity
+            onPress={()=>this.add(item)}
+            >
+              <Image style={list.icon} source={require('../../icons/star-outline.png')}/>
+            </TouchableOpacity>
+          }
       </View>
       <TouchableOpacity style={list.detail}
       onPress={()=>this.open(item.id)}>
@@ -73,9 +84,14 @@ export default class MovieComponent extends Component {
     this.state = {
       refreshing: false,
       filter: '',
+      favor: [],
       dialogTitle: "Filter Movie",
       dataSource: null
     };
+    this.reloadData();
+    realm.addListener('change', () => {
+        this.reloadData();
+    });
   }
 
   _onClickDetail=(id)=>{
@@ -91,7 +107,24 @@ export default class MovieComponent extends Component {
   //   this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
   // }
 
+  addFavor=(item)=>{
+    const newFavor = {
+      id: item.id,
+      title: item.title,
+      poster_path: item.poster_path,
+      release_date: item.release_date,
+      vote_average: item.vote_average.toString(),
+    };
+    insertNewFavor(newFavor).then().catch((error) => {
+      alert(`Insert new favor error ${error}`);
+    });
+  }
 
+  deleteFavorist=(id)=>{
+    deleteFavor(id).then().catch(error => {
+      alert(`Failed to delete  with id = ${id}, error=${error}`);
+    });
+  }
 
   _onRefresh() {
     this.setState({refreshing: true});
@@ -150,7 +183,7 @@ export default class MovieComponent extends Component {
           data={this.props.items}
           keyExtractor={(item, index) => index}
           numColumns={this.props.kindView?2:1}
-          renderItem={({item, index}) => Item(item,this.props.kindView, index,open=(id)=>this._onClickDetail(id))}
+          renderItem={({item, index}) => Item(item,this.props.kindView, index, open=(id)=>this._onClickDetail(id), addFavor=(item)=>this.addFavor(item), deleteFavor=()=>this.deleteFavorist(item.id), this.state.favor)}
           key={this.props.kindView?1:0}
         />
       </View>

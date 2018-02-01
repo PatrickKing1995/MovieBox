@@ -75,7 +75,7 @@ export  class FavorHearder extends Component {
                   >
                     <Image style={header.image2} source={require('../../icons/menu.png')}/>
                 </TouchableOpacity>
-                <Text style={header.title}>Favorists</Text>
+                <Text style={header.title}>Favorites</Text>
                 <TouchableOpacity
                   >
                   <Text style={header.image2}></Text>
