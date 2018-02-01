@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View } from 'react-native'
+import { Text, View,WebView } from 'react-native'
 import{AboutHearder} from '../route/Header'
 
 export default class AboutComponent extends Component {
@@ -10,7 +10,9 @@ export default class AboutComponent extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#f9f8fd"  }}>
         <AboutHearder open={() => this.onClick_User()}/>
-        <Text>Hi</Text>
+        <WebView
+          source={{uri: 'https://www.themoviedb.org/about/our-history'}}
+          />
       </View>
     )
   }
