@@ -189,6 +189,14 @@ export  class Detail extends Component {
     }
   }
 
+  checkTime(i) 
+    {
+        if (i < 10) {
+            i = "0" + i;
+        }
+        return i;
+    }
+
   _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
 
   _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
@@ -196,7 +204,7 @@ export  class Detail extends Component {
   _handleDatePicked = (date) => {
     let month = +date.getMonth()+1;
     let day = +date.getDate();
-    let datereminder= date.getFullYear()+'-'+month+'-'+day+'  '+date.getHours()+':'+date.getMinutes();
+    let datereminder= date.getFullYear()+'-'+this.checkTime(month)+'-'+this.checkTime(day)+'  '+this.checkTime(date.getHours())+':'+this.checkTime(date.getMinutes());
     const newReminders = {
       id: this.props.id,
       title: this.props.detailFilm.title,

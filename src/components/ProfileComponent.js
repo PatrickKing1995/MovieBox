@@ -352,7 +352,7 @@ const user = StyleSheet.create({
     shadowRadius: 0,
     shadowOpacity: 0.6,
     flex:1,
-    margin: 15,
+    marginLeft: 15,
     paddingLeft: 25,
     width: "100%",
     alignItems: "flex-start",
