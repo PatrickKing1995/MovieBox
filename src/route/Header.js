@@ -78,6 +78,7 @@ export  class FavorHearder extends Component {
                 <Text style={header.title}>Favorists</Text>
                 <TouchableOpacity
                   >
+                  <Text style={header.image2}></Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -103,6 +104,7 @@ export  class SettingHearder extends Component {
                 <Text style={header.title}>Settings</Text>
                 <TouchableOpacity
                   >
+                  <Text style={header.image2}></Text>
                 </TouchableOpacity>
               </View>
             </View>
@@ -128,6 +130,7 @@ export  class AboutHearder extends Component {
                 <Text style={header.title}>About</Text>
                 <TouchableOpacity
                   >
+                  <Text style={header.image2}></Text>
                 </TouchableOpacity>
               </View>
             </View>
