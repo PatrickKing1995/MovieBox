@@ -1,67 +1,91 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList,TouchableOpacity, StyleSheet, Image  } from 'react-native'
+import { Text, View, FlatList,TouchableOpacity, StyleSheet, Image,Alert  } from 'react-native'
 import{FavorHearder} from '../route/Header';
-import flastlistData from './popular'
+import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';
+import realm from '../localdatabase/allSchemas';
 
 
-// export class Items extends Component {
-//   constructor(props){
-//     super(props);
-//     this.state = {
-//       favor: true,
-//     }
-//     console.ignoredYellowBox = ["VirtualizedList"];
-//   }
-//   render(){
-//     return(
-//       <View style={[list.container, {backgroundColor: this.props.index%2 == 0 ?"#fff":"#f1f1f1"}]}>
-//         <View style={list.title}>
-//           <Text style={list.name}>{this.props.item.title}</Text>
-//           <TouchableOpacity
-//             onPress={()=>{this.setState({favor: !this.state.favor})}}
-//           >
-//             {this.state.favor? <Image style={list.icon} source={require('../../icons/star.png')}/>: <Image style={list.icon} source={require('../../icons/star-outline.png')}/>}
-//           </TouchableOpacity>
-//         </View>
-//         <View style={list.detail}>
-//         <TouchableOpacity
-//         style={{width: "40%", height: 200}}
-//         >
-//           <Image
-//             style={list.image}
-//             source={{uri: 'http://image.tmdb.org/t/p/w185'+this.props.item.poster_path}}
-//           />
-//         </TouchableOpacity>
-//         <View style={list.desp}>
-//           <View style={list.release}>
-//             <Text style={list.text}>Release date:</Text>
-//             <Text style={list.infor}>{this.props.item.release_date}</Text>
-//           </View>
-//          <View style={list.rate}>
-//           <Text style={list.text}>Rating:</Text>
-//           <Text style={list.infor}>{this.props.item.vote_average}<Text style={list.text}>/10</Text></Text>
-//          </View>
-//          <View style={list.over}>
-//           <Text style={list.inforo}>Overview:</Text>
-//          </View>
-//           <View style={list.overview}>
-//             <Text style={list.texto} numberOfLines={4}>{this.props.item.overview}</Text>
-//           </View>
-//         </View>  
-//         </View>
-//       </View>
-//     )
-//   }
-// }
+
+const Item = (item, index,dele)=>(
+  <View style={[list.container, {backgroundColor: index%2 == 0 ?"#fff":"#f1f1f1"}]}>
+      <View style={list.title}>
+        <Text style={list.name}>{item.title}</Text>
+  
+            <TouchableOpacity
+            onPress={()=>{Alert.alert(
+              'Confirm!!',
+              'Are you sure you want to unfavorite this item!',
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'OK', onPress: () => {this.dele(item.id)}},
+              ],
+              { cancelable: false }
+            )}}
+            >
+              <Image style={list.icon} source={require('../../icons/star.png')}/>
+            </TouchableOpacity>
+            
+      </View>
+      <TouchableOpacity style={list.detail}
+      onPress={()=>this.open(item.id)}>
+      <View
+      style={{width: "40%", height: 200}}
+      // onPress={()=>this.open(item.id)}
+      >
+        <Image
+          style={list.image}
+          source={{uri: 'http://image.tmdb.org/t/p/w185'+item.poster_path}}
+        />
+      </View>
+      <View style={list.desp}>
+        <View style={list.release}>
+          <Text style={list.text}>Release date:</Text>
+          <Text style={list.infor}>{item.release_date}</Text>
+        </View>
+       <View style={list.rate}>
+        <Text style={list.text}>Rating:</Text>
+        <Text style={list.infor}>{item.vote_average}<Text style={list.text}>/10</Text></Text>
+       </View>
+       <View style={list.over}>
+        <Text style={list.inforo}>Overview:</Text>
+       </View>
+        <View style={list.overview}>
+          <Text style={list.texto} numberOfLines={4}>{item.overview}</Text>
+        </View>
+      </View>  
+      </TouchableOpacity>
+    </View>
+)
+
 
 export default class FavoristComponent extends Component {
     constructor(props){
     super(props);
     this.state = {
-      favor: true,
+      favor: [],
     }
+    this.reloadData();
+    realm.addListener('change', () => {
+        this.reloadData();
+    });
     console.ignoredYellowBox = ["VirtualizedList"];
   }
+
+  reloadData = () => {
+    queryAllFavor().then((favor) => {
+        this.setState({ favor });
+    }).catch((error) => {
+        this.setState({ favor: [] });
+    });
+    console.log(`reloadData`);
+  }
+
+  deleFavorist=(id)=>{
+    deleteFavor(id).then().catch(error => {
+      alert(`Failed to delete  with id = ${id}, error=${error}`);
+    });
+  }
+
   onClick_User = () => {
     this.props.navigation.navigate('DrawerOpen');
   };
@@ -69,12 +93,16 @@ export default class FavoristComponent extends Component {
     return (
       <View style={{ flex: 1, backgroundColor: "#f9f8fd"  }}>
         <FavorHearder open={() => this.onClick_User()}/>
-        {/* <FlatList
-          data={flastlistData}
-          renderItem={({item, index}) => {
-            return <Items item={item} index={index}/>;
-          }}
-        /> */}
+        {
+          this.state.favor.length==0?<View style={{height: '100%',alignItems: 'center', justifyContent:'center'}}>
+            <Text>No Item</Text>
+          </View>:
+          <FlatList
+          data={this.state.favor}
+          keyExtractor={(item, index) => index}
+          renderItem={({item, index}) => Item(item, index,dele=(id)=>this.deleFavorist(id))}
+        />
+        }
       </View>
     )
   }

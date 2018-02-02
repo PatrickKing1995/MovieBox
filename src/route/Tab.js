@@ -12,7 +12,8 @@ import FavoristComponent from '../components/FavoristComponent';
 import MovieContainer from '../containers/MovieContainer'
 import SettingComponent from '../components/SettingComponent';
 import AllReminderContainer from '../containers/AllReminderContainer'
-import DetailContainer from '../containers/DetailContainer'
+import DetailContainer from '../containers/DetailContainer';
+import Count from '../route/Count'
 const {height} = Dimensions.get('window')
 
 export const Reminders = StackNavigator({
@@ -73,9 +74,7 @@ export const Tab = TabNavigator(
             source={require('../../icons/favor.png')}
             style={tab.icon}
           />
-          <View style={tab.favor}>
-            <Text style={tab.textI}>18</Text>
-          </View>
+          <Count/>
           </View>
             
         }

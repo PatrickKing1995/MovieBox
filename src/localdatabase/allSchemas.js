@@ -24,6 +24,7 @@ export const FavorSchema = {
         poster_path: { type: 'string', default: '' },
         release_date: { type: 'string', default: '' },
         vote_average: { type: 'string', default: '' },
+        overview: { type: 'string', default: '' },
     }
 };
 

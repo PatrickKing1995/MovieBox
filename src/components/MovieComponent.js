@@ -1,22 +1,30 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity, RefreshControl  } from 'react-native';
+import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity,Alert, RefreshControl  } from 'react-native';
 import HeaderMovieContainer from '../containers/HeaderMovieContainer';
-import {insertNewFavor, deleteFavor} from '../localdatabase/allSchemas';
+import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';
 import realm from '../localdatabase/allSchemas';
 import PopupDialog, { SlideAnimation, DialogTitle, ScaleAnimation } from 'react-native-popup-dialog';
 
 
-const Item =(item,view,index,open, add, dele, favor)=>(
-  view ? Grid(item,index, open):List(item, index, open, add, dele, favor)
+const Item =(item,view,index,open,add,dele, favor, check)=>(
+  view ? Grid(item,index, open):List(item, index, open,add,dele, favor, check)
 )
 
-const List = (item, index,open, add, dele, favor)=>(
+const List = (item, index,open,add,dele, favor, check)=>(
   <View style={[list.container, {backgroundColor: index%2 == 0 ?"#fff":"#f1f1f1"}]}>
       <View style={list.title}>
         <Text style={list.name}>{item.title}</Text>
-          { favor.indexOf(item.id)!=-1?
+          { this.check(favor, 'id', item.id)?
             <TouchableOpacity
-            onPress={()=>this.delete(item.id)}
+            onPress={()=>{Alert.alert(
+              'Confirm!!',
+              'Are you sure you want to unfavorite this item!',
+              [
+                {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                {text: 'OK', onPress: () => {this.dele(item.id)}},
+              ],
+              { cancelable: false }
+            )}}
             >
               <Image style={list.icon} source={require('../../icons/star.png')}/>
             </TouchableOpacity>
@@ -94,6 +102,15 @@ export default class MovieComponent extends Component {
     });
   }
 
+  reloadData = () => {
+    queryAllFavor().then((favor) => {
+        this.setState({ favor });
+    }).catch((error) => {
+        this.setState({ favor: [] });
+    });
+    console.log(`reloadData`);
+  }
+
   _onClickDetail=(id)=>{
     this.props.fetchDetail(id)
     this.props.navigation.navigate("Screen_Detail")
@@ -107,25 +124,6 @@ export default class MovieComponent extends Component {
   //   this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.kindFilter+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
   // }
 
-  addFavor=(item)=>{
-    const newFavor = {
-      id: item.id,
-      title: item.title,
-      poster_path: item.poster_path,
-      release_date: item.release_date,
-      vote_average: item.vote_average.toString(),
-    };
-    insertNewFavor(newFavor).then().catch((error) => {
-      alert(`Insert new favor error ${error}`);
-    });
-  }
-
-  deleteFavorist=(id)=>{
-    deleteFavor(id).then().catch(error => {
-      alert(`Failed to delete  with id = ${id}, error=${error}`);
-    });
-  }
-
   _onRefresh() {
     this.setState({refreshing: true});
     this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
@@ -136,6 +134,35 @@ export default class MovieComponent extends Component {
   onClick_User = () => {
     this.props.navigation.navigate('DrawerOpen');
   };
+
+  addFavor=(item)=>{
+    const newFavor = {
+      id: item.id,
+      title: item.title,
+      poster_path: item.poster_path,
+      release_date: item.release_date,
+      vote_average: item.vote_average.toString(),
+      overview: item.overview,
+    };
+    insertNewFavor(newFavor).then().catch((error) => {
+      alert(`Insert new favor error ${error}`);
+    });
+  }
+
+  deleFavorist=(id)=>{
+    deleteFavor(id).then().catch(error => {
+      alert(`Failed to delete  with id = ${id}, error=${error}`);
+    });
+  }
+
+  findObjectByKey=(array, key, value) =>{
+    for (var i = 0; i < array.length; i++) {
+        if (array[i][key] === value) {
+            return true;
+        }
+    }
+    return false;
+  }
   
 
   render() {
@@ -183,7 +210,7 @@ export default class MovieComponent extends Component {
           data={this.props.items}
           keyExtractor={(item, index) => index}
           numColumns={this.props.kindView?2:1}
-          renderItem={({item, index}) => Item(item,this.props.kindView, index, open=(id)=>this._onClickDetail(id), addFavor=(item)=>this.addFavor(item), deleteFavor=()=>this.deleteFavorist(item.id), this.state.favor)}
+          renderItem={({item, index}) => Item(item,this.props.kindView, index, open=(id)=>this._onClickDetail(id),add=(item)=>this.addFavor(item),dele=(id)=>this.deleFavorist(id),this.state.favor, check=()=>this.findObjectByKey(this.state.favor, 'id', item.id))}
           key={this.props.kindView?1:0}
         />
       </View>

@@ -4,6 +4,8 @@ import HeaderDetailContainer from '../containers/HeaderDetailContainer';
 import castcrew from './cast'
 import flastlistData from './popular';
 import castCrew from './cast'
+import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';
+import realm from '../localdatabase/allSchemas';
 const {width,height} = Dimensions.get('window')
 
 const Item = (item,index)=>(
@@ -23,7 +25,53 @@ const Item = (item,index)=>(
 export default class DetailComponent extends Component {
   constructor(props){
     super(props);
+    this.state={
+      favor: [],
+    }
+    this.reloadData();
+    realm.addListener('change', () => {
+        this.reloadData();
+    });
   }
+
+  reloadData = () => {
+    queryAllFavor().then((favor) => {
+        this.setState({ favor });
+    }).catch((error) => {
+        this.setState({ favor: [] });
+    });
+    console.log(`reloadData`);
+  }
+
+  addFavor=(item)=>{
+    const newFavor = {
+      id: item.id,
+      title: item.title,
+      poster_path: item.poster_path,
+      release_date: item.release_date,
+      vote_average: item.vote_average.toString(),
+      overview: item.overview,
+    };
+    insertNewFavor(newFavor).then().catch((error) => {
+      alert(`Insert new favor error ${error}`);
+    });
+  }
+
+  deleFavorist=(id)=>{
+    deleteFavor(id).then().catch(error => {
+      alert(`Failed to delete  with id = ${id}, error=${error}`);
+    });
+  }
+
+  findObjectByKey=(array, key, value) =>{
+    for (var i = 0; i < array.length; i++) {
+        if (array[i][key] === value) {
+            return true;
+        }
+    }
+    return false;
+  }
+
   onClick_User = () => {
     this.props.navigation.goBack();
   };
@@ -39,10 +87,27 @@ export default class DetailComponent extends Component {
           <View style={details.top}>
             <View style={details.name}>
               <View style={details.favor}>
-              <TouchableOpacity
-                >
-                  {false? <Image style={details.icon} source={require('../../icons/star.png')}/>: <Image style={details.icon} source={require('../../icons/star-outline.png')}/>}
-                </TouchableOpacity>
+              { this.findObjectByKey(this.state.favor, 'id', this.props.detailFilm.id)?
+                  <TouchableOpacity
+                  onPress={()=>{Alert.alert(
+                    'Confirm!!',
+                    'Are you sure you want to unfavorite this item!',
+                    [
+                      {text: 'Cancel', onPress: () => console.log('Cancel Pressed'), style: 'cancel'},
+                      {text: 'OK', onPress: () => {this.deleFavorist(this.props.detailFilm.id)}},
+                    ],
+                    { cancelable: false }
+                  )}}
+                  >
+                    <Image style={details.icon} source={require('../../icons/star.png')}/>
+                  </TouchableOpacity>
+                  :
+                  <TouchableOpacity
+                  onPress={()=>this.addFavor(this.props.detailFilm)}
+                  >
+                    <Image style={details.icon} source={require('../../icons/star-outline.png')}/>
+                  </TouchableOpacity>
+                }
               </View>
               <View style={details.guess}>
                 <View style={details.date}>
