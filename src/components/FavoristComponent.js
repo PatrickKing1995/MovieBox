@@ -1,5 +1,5 @@
 import React, { Component } from 'react'
-import { Text, View, FlatList,TouchableOpacity, StyleSheet, Image,Alert  } from 'react-native'
+import { Text, View, FlatList,TouchableOpacity, StyleSheet, Image,Alert, TextInput  } from 'react-native'
 import{FavorHearder} from '../route/Header';
 import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';
 import realm from '../localdatabase/allSchemas';
@@ -63,6 +63,9 @@ export default class FavoristComponent extends Component {
     super(props);
     this.state = {
       favor: [],
+      AFavor: [],
+      searchText: '',
+      searchable: false
     }
     this.reloadData();
     realm.addListener('change', () => {
@@ -91,8 +94,41 @@ export default class FavoristComponent extends Component {
   };
   render() {
     return (
-      <View style={{ flex: 1, backgroundColor: "#f9f8fd"  }}>
+      <View style={{ flex: 1, backgroundColor: "#f1f1f1"  }}>
         <FavorHearder open={() => this.onClick_User()}/>
+        <View style={styles.SectionStyle}>
+ 
+        <TouchableOpacity
+          onPress={()=>this.setState({searchable: !this.state.searchable})}
+        >
+        <Image source={require('../../icons/magnify.png')} style={styles.ImageStyle} />
+        </TouchableOpacity>
+ 
+          <TextInput
+              style={{flex:1}}
+              placeholder="Enter Film's Name"
+              placeholderTextColor={'#dcdcdc'}
+              underlineColorAndroid="transparent"
+          />
+          {
+            this.state.searchable?
+            <TouchableOpacity
+              onPress={()=>this.setState({searchable: !this.state.searchable})}
+            >
+            <Image source={require('../../icons/close.png')} style={styles.ImageStyle} />
+            </TouchableOpacity>:<View>
+            </View>
+            
+          }
+        </View>
+        {/* <View style={search.container}>
+        <TextInput
+          style={search.searchBar}
+          value={this.state.searchText}
+          underlineColorAndroid={'transparent'}
+          onChange={(text)=>this.setState({searchText: text})}
+          placeholder="Search" />
+        </View> */}
         {
           this.state.favor.length==0?<View style={{height: '100%',alignItems: 'center', justifyContent:'center'}}>
             <Text>No Item</Text>
@@ -107,6 +143,56 @@ export default class FavoristComponent extends Component {
     )
   }
 }
+
+const styles = StyleSheet.create({
+ 
+  container: {
+    flex: 1,
+    justifyContent: 'center',
+    alignItems: 'center',
+    margin: 10
+  },
+  
+  SectionStyle: {
+    flexDirection: 'row',
+    justifyContent: 'center',
+    alignItems: 'center',
+    backgroundColor: '#fff',
+    height: 40,
+    borderRadius: 5 ,
+    margin: 10
+},
+ 
+ImageStyle: {
+    padding: 10,
+    margin: 5,
+    height: 25,
+    tintColor: '#3F485B',
+    width: 25,
+    resizeMode : 'stretch',
+    alignItems: 'center'
+},
+ 
+});
+
+const search = StyleSheet.create({
+  container:{
+    justifyContent: 'center',
+    paddingHorizontal: 5,
+    paddingVertical: 8,
+    height: "11%",
+    alignItems: 'center',
+    backgroundColor: '#E4E4E4'
+  },
+  searchBar:{
+    paddingLeft: 20,
+    fontSize: 16,
+    borderRadius: 5,
+    width: "100%",
+    height: '100%',
+    backgroundColor: '#fff'
+  },
+})
 
 const list = StyleSheet.create({
   container: {

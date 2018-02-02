@@ -50,8 +50,8 @@ export  class MoviesHearder extends Component {
                   >
                   {
                     this.props.kindView?
-                    <Image style={header.image2} source={require('../../icons/view-module.png')}/> :
-                    <Image style={header.image2} source={require('../../icons/view-list.png')}/>
+                    <Image style={header.image2} source={require('../../icons/view-list.png')}/> :
+                    <Image style={header.image2} source={require('../../icons/view-module.png')}/>
                   }
                 </TouchableOpacity>
               </View>
@@ -208,7 +208,7 @@ export  class Detail extends Component {
         ToastAndroid.CENTER
       );
     }).catch((error) => {
-      alert(`Insert new error ${error}`);
+      alert(`This film was been reminder!`);
 });
     // this.props.addRemind()
     

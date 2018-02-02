@@ -53,7 +53,7 @@ export default class DetailComponent extends Component {
       overview: item.overview,
     };
     insertNewFavor(newFavor).then().catch((error) => {
-      alert(`Insert new favor error ${error}`);
+      alert(`This film was favorite!`);
     });
   }
 
