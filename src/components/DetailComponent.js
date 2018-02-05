@@ -47,6 +47,7 @@ export default class DetailComponent extends Component {
     const newFavor = {
       id: item.id,
       title: item.title,
+      lowtitle: item.title.toLowerCase(),
       poster_path: item.poster_path,
       release_date: item.release_date,
       vote_average: item.vote_average.toString(),

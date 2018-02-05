@@ -5,5 +5,7 @@ export const GET_DETAIL = 'GET_DETAIL';
 export const GET_CAST = 'GET_CAST';
 export const ADD_NEW_REMIND = 'ADD_NEW_REMIND';
 export const DELETE_REMIND = 'DELETE_REMIND';
+export const ITEMS_FETCH_DATA_TRATED = 'ITEMS_FETCH_DATA_TRATED';
+
 
 

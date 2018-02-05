@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,TouchableOpacity, StyleSheet, Image,Alert, TextInput  } from 'react-native'
 import{FavorHearder} from '../route/Header';
-import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';
+import {insertNewFavor, deleteFavor,queryAllFavor,queryAFavor } from '../localdatabase/allSchemas';
 import realm from '../localdatabase/allSchemas';
 
 
@@ -83,6 +83,15 @@ export default class FavoristComponent extends Component {
     console.log(`reloadData`);
   }
 
+  loadFavor = (name) => {
+    queryAFavor(name).then((AFavor) => {
+        this.setState({ AFavor });
+    }).catch((error) => {
+        this.setState({ AFavor: [] });
+    });
+    console.log(`reloadData`);
+  }
+
   deleFavorist=(id)=>{
     deleteFavor(id).then().catch(error => {
       alert(`Failed to delete  with id = ${id}, error=${error}`);
@@ -99,18 +108,23 @@ export default class FavoristComponent extends Component {
         <View style={styles.SectionStyle}>
  
         <TouchableOpacity
-          onPress={()=>this.setState({searchable: !this.state.searchable})}
+          onPress={()=>{this.state.searchable?this.setState({searchText: ''}):null,this.setState({searchable: !this.state.searchable}), this.loadFavor(this.state.searchText.toLowerCase())}}
         >
-        <Image source={require('../../icons/magnify.png')} style={styles.ImageStyle} />
+        <Image source={this.state.searchable?require('../../icons/close.png'):require('../../icons/magnify.png')} style={styles.ImageStyle} />
         </TouchableOpacity>
  
           <TextInput
               style={{flex:1}}
               placeholder="Enter Film's Name"
+              // onFocus={()=>this.setState({searchable: !this.state.searchable})}
+              editable={this.state.searchable?false:true}
+              onEndEditing={()=>{this.setState({searchable: true}), this.loadFavor(this.state.searchText.toLowerCase())}}
               placeholderTextColor={'#dcdcdc'}
+              onChangeText={(searchText) => this.setState({searchText})}
               underlineColorAndroid="transparent"
+              value={this.state.searchText}
           />
-          {
+          {/* {
             this.state.searchable?
             <TouchableOpacity
               onPress={()=>this.setState({searchable: !this.state.searchable})}
@@ -119,7 +133,7 @@ export default class FavoristComponent extends Component {
             </TouchableOpacity>:<View>
             </View>
             
-          }
+          } */}
         </View>
         {/* <View style={search.container}>
         <TextInput
@@ -134,7 +148,7 @@ export default class FavoristComponent extends Component {
             <Text>No Item</Text>
           </View>:
           <FlatList
-          data={this.state.favor}
+          data={this.state.searchable?this.state.AFavor:this.state.favor}
           keyExtractor={(item, index) => index}
           renderItem={({item, index}) => Item(item, index,dele=(id)=>this.deleFavorist(id))}
         />

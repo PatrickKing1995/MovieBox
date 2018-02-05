@@ -7,6 +7,14 @@ export function itemsFetchData(url, dispatch, itemsFetchDataSuccess) {
           })
 }
 
+export function itemsFetchTopRated(url, dispatch, itemsFetchDataTopRated) {
+    fetch(url)
+        .then((response) => response.json())
+        .then((items) => {
+            dispatch(itemsFetchDataTopRated(items.results))
+        })
+}
+
 export function getDetail(id, dispatch, getDetailSuccess,getCastSuccess) {
     fetch('https://api.themoviedb.org/3/movie/'+id+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US')
         .then((response) => response.json())

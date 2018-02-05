@@ -21,6 +21,7 @@ export const FavorSchema = {
     properties: {
         id: 'int',    // primary key
         title: { type: 'string', indexed: true },
+        lowtitle: { type: 'string', indexed: true },
         poster_path: { type: 'string', default: '' },
         release_date: { type: 'string', default: '' },
         vote_average: { type: 'string', default: '' },
@@ -90,9 +91,9 @@ export const queryAllFavor = () => new Promise((resolve, reject) => {
     });;
 });
 
-export const queryAFavor = (favorId) => new Promise((resolve, reject) => {    
+export const queryAFavor = (favorName) => new Promise((resolve, reject) => {    
     Realm.open(databaseOptions).then(realm => {        
-        let aFavor = realm.objectForPrimaryKey(FAVOR_SCHEMA,favorId);
+        let aFavor = realm.objects(FAVOR_SCHEMA).filtered('lowtitle == $0', favorName);
         resolve(aFavor);  
     }).catch((error) => {        
         reject(error);  

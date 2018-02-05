@@ -94,7 +94,9 @@ export default class MovieComponent extends Component {
       filter: '',
       favor: [],
       dialogTitle: "Filter Movie",
-      dataSource: null
+      dataSource: null,
+      flatListReady: false,
+      current_page: 1,
     };
     this.reloadData();
     realm.addListener('change', () => {
@@ -116,8 +118,9 @@ export default class MovieComponent extends Component {
     this.props.navigation.navigate("Screen_Detail")
   }
 
-  componentDidMount(){
+  componentWillMount(){
     this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
+    // this.setState({dataSource: this.state.})
   }
 
   // componentWillUpdate(){
@@ -126,7 +129,8 @@ export default class MovieComponent extends Component {
 
   _onRefresh() {
     this.setState({refreshing: true});
-    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page=1')
+    this.setState({current_page: 1})
+    this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page='+this.state.current_page)
       this.setState({refreshing: false})
     
   }
@@ -139,6 +143,7 @@ export default class MovieComponent extends Component {
     const newFavor = {
       id: item.id,
       title: item.title,
+      lowtitle: item.title.toLowerCase(),
       poster_path: item.poster_path,
       release_date: item.release_date,
       vote_average: item.vote_average.toString(),
@@ -163,8 +168,15 @@ export default class MovieComponent extends Component {
     }
     return false;
   }
-  
 
+
+  loadMore = () => {
+    if (this.state.current_page +1 <= 1000)
+    {
+      this.props.fetchData('https://api.themoviedb.org/3/movie/'+this.props.url+'?api_key=0267c13d8c7d1dcddb40001ba6372235&language=en-US&page='+this.state.current_page)
+    }
+    }
+  
   render() {
     const { dialogTitle } = this.state;
     return (
@@ -212,6 +224,8 @@ export default class MovieComponent extends Component {
           numColumns={this.props.kindView?2:1}
           renderItem={({item, index}) => Item(item,this.props.kindView, index, open=(id)=>this._onClickDetail(id),add=(item)=>this.addFavor(item),dele=(id)=>this.deleFavorist(id),this.state.favor, check=()=>this.findObjectByKey(this.state.favor, 'id', item.id))}
           key={this.props.kindView?1:0}
+          // onEndReached={(x) => {this.setState({current_page: ++this.state.current_page}),this.loadMore()}}
+          // onEndReachedThreshold={0.5}
         />
       </View>
     )
@@ -260,6 +274,7 @@ const list = StyleSheet.create({
   },
   name: {
     fontSize: 18,
+    width: '90%',
     fontWeight: "bold",
     color: "#1F2B40"
   },

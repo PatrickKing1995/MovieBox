@@ -1,4 +1,4 @@
-import {SWITCH_VIEW,ITEMS_FETCH_DATA_SUCCESS,GET_CAST,SWITCH_FILTER,GET_DETAIL,DELETE_REMIND,ADD_NEW_REMIND} from './actionTypes';
+import {SWITCH_VIEW,ITEMS_FETCH_DATA_SUCCESS,GET_CAST,SWITCH_FILTER,GET_DETAIL,DELETE_REMIND,ADD_NEW_REMIND,ITEMS_FETCH_DATA_TRATED} from './actionTypes';
 
 export const switchView = ()=>{
     return{
@@ -29,6 +29,13 @@ export function getCastSuccess(items) {
 export function itemsFetchDataSuccess(items) {
     return {
         type: ITEMS_FETCH_DATA_SUCCESS,
+        items
+    };
+}
+
+export function itemsFetchDataTopRated(items) {
+    return {
+        type: ITEMS_FETCH_DATA_TRATED,
         items
     };
 }
