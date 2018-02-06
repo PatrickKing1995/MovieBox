@@ -174,7 +174,8 @@ const styles = StyleSheet.create({
     backgroundColor: '#fff',
     height: 40,
     borderRadius: 5 ,
-    margin: 10
+    marginHorizontal: 5,
+    marginVertical: 8,
 },
  
 ImageStyle: {

@@ -300,7 +300,7 @@ export default class ProfileComponent extends Component {
                   scrollEnabled={false}
                   renderItem={({item, index}) => {
                     return <View style={user.detail} elevation={10} >
-                    <Text style={user.textDetail}>{item.title} - {item.release_date.slice(0,4)} - {item.vote_average}/10</Text>
+                    <Text style={user.textDetail} numberOfLines={1}>{item.title} - {item.release_date.slice(0,4)} - {item.vote_average}/10</Text>
                     <Text style={user.textDetail}>{item.dateremind}</Text>
                   </View>;
                   }}
@@ -383,7 +383,7 @@ const user = StyleSheet.create({
     justifyContent: "space-between"
   },
   textDetail: {
-     
+     width: "91%",
     fontSize: 16,
     color: "#fff"
   },

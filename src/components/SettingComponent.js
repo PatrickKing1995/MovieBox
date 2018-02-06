@@ -1,12 +1,16 @@
 import React, { Component } from 'react';
 import { Text, View,Image, TouchableOpacity,TextInput, WebView,TouchableWithoutFeedback,StyleSheet, Slider } from 'react-native';
-import {SettingHearder} from '../route/Header'
+import {SettingHearder} from '../route/Header';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 
 export default class SettingComponent extends Component {
   constructor(props){
     super(props);
     this.state={
       value: 0,
+      checkdate: false,
+      checkrate: false,
+      isDateTimePickerVisible: false,
     }
   }
   onClick_User = () => {
@@ -20,6 +24,15 @@ export default class SettingComponent extends Component {
       };
     });
   }
+
+  _showDateTimePicker = () => this.setState({ isDateTimePickerVisible: true });
+
+  _hideDateTimePicker = () => this.setState({ isDateTimePickerVisible: false });
+
+  _handleDatePicked = (date) => {
+    console.log('A date has been picked: ', date);
+    this._hideDateTimePicker();
+  };
   render() {
     return (
       <View style={{ flex: 1, backgroundColor: "#f9f8fd" }}>
@@ -54,6 +67,7 @@ export default class SettingComponent extends Component {
             </View>
             <TouchableOpacity
               style={setting.years}
+              onPress={this._showDateTimePicker}
             >
               <Text style={setting.textfirst}>From Realese Year:</Text>
               <Text style={setting.textyear}>2007</Text>
@@ -65,18 +79,26 @@ export default class SettingComponent extends Component {
             </View>
             <TouchableOpacity
               style={setting.date}
+              onPress={()=>this.setState({checkdate: !this.state.checkdate})}
             >
               <Text style={setting.textfirst}>Realese Date</Text>
-               <Image style={setting.check} source={require('../../icons/check.png')}/>
+              {this.state.checkdate? <Image style={setting.check} source={require('../../icons/check.png')}/>:null}
             </TouchableOpacity>
             <TouchableOpacity
               style={setting.rating}
+              onPress={()=>this.setState({checkrate: !this.state.checkrate})}
             >
               <Text style={setting.textfirst}>Rating</Text>
-              <Image style={setting.check} source={require('../../icons/check.png')}/>
+              {this.state.checkrate? <Image style={setting.check} source={require('../../icons/check.png')}/>:null}
             </TouchableOpacity>
           </View>
           </View>
+          <DateTimePicker
+          isVisible={this.state.isDateTimePickerVisible}
+          onConfirm={this._handleDatePicked}
+          onCancel={this._hideDateTimePicker}
+          mode='date'
+        />
       </View>
     )
   }
@@ -106,14 +128,14 @@ const setting =StyleSheet.create({
     backgroundColor: '#F1F1F1',
   },
   title:{
-    paddingLeft: 15,
+    paddingLeft: 12,
     width: '100%',
     fontWeight: 'bold',
     fontSize: 18,
     color: '#000'
   },
   ratescore:{
-    paddingLeft: 15,
+    paddingLeft: 12,
     height: '67%',
   },
   ratetitle:{
@@ -132,7 +154,7 @@ const setting =StyleSheet.create({
   date:{
     height: '15%',
     flexDirection:'row',
-    marginLeft: 15,
+    marginLeft: 12,
     justifyContent: 'space-between',
     paddingRight: 25,
     alignItems:'center',
@@ -171,7 +193,7 @@ const setting =StyleSheet.create({
     flexDirection:'row',
     borderBottomWidth: 1.5,
     borderColor:'#F1F1F1',
-    marginLeft: 15,
+    marginLeft: 12,
   },
   check:{
     height: 20,
@@ -184,7 +206,7 @@ const setting =StyleSheet.create({
     alignItems:'center',
     justifyContent: 'space-between',
     paddingRight: 25,
-    marginLeft: 15,
+    marginLeft: 12,
     borderBottomWidth: 1.5,
     borderColor:'#F1F1F1',
   },
