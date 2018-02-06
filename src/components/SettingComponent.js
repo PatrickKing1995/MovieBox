@@ -44,7 +44,7 @@ export default class SettingComponent extends Component {
                   step={0.1}
                   maximumValue={10}
                   onValueChange={this.change.bind(this)}
-                  value={this.state.value}
+                  // value={this.state.value}
               />
               <View style={setting.soView}>
               <Text style={setting.so}>10</Text>
@@ -100,20 +100,20 @@ const setting =StyleSheet.create({
     width: '81%',
   },
   titleView:{
-    height: '13%',
+    height: 30,
     justifyContent: 'center',
     alignItems: 'center',
     backgroundColor: '#F1F1F1',
   },
   title:{
-    paddingLeft: 10,
+    paddingLeft: 15,
     width: '100%',
     fontWeight: 'bold',
     fontSize: 18,
     color: '#000'
   },
   ratescore:{
-    paddingLeft: 10,
+    paddingLeft: 15,
     height: '67%',
   },
   ratetitle:{
@@ -132,7 +132,9 @@ const setting =StyleSheet.create({
   date:{
     height: '15%',
     flexDirection:'row',
-    marginLeft: 10,
+    marginLeft: 15,
+    justifyContent: 'space-between',
+    paddingRight: 25,
     alignItems:'center',
     borderBottomWidth: 1.5,
     borderColor:'#F1F1F1',
@@ -169,18 +171,20 @@ const setting =StyleSheet.create({
     flexDirection:'row',
     borderBottomWidth: 1.5,
     borderColor:'#F1F1F1',
-    marginLeft: 10,
+    marginLeft: 15,
   },
   check:{
-    height: 30,
-    width: 30,
+    height: 20,
+    width: 20,
     tintColor: '#3F485B',
   },
   rating:{
     height: '15%',
     flexDirection:'row',
     alignItems:'center',
-    marginLeft: 10,
+    justifyContent: 'space-between',
+    paddingRight: 25,
+    marginLeft: 15,
     borderBottomWidth: 1.5,
     borderColor:'#F1F1F1',
   },
