@@ -13,7 +13,7 @@ const Item =(item,view,index,open,add,dele, favor, check)=>(
 const List = (item, index,open,add,dele, favor, check)=>(
   <View style={[list.container, {backgroundColor: index%2 == 0 ?"#fff":"#f1f1f1"}]}>
       <View style={list.title}>
-        <Text style={list.name}>{item.title}</Text>
+        <Text style={list.name} numberOfLines={1}>{item.title}</Text>
           { this.check(favor, 'id', item.id)?
             <TouchableOpacity
             onPress={()=>{Alert.alert(
@@ -98,6 +98,7 @@ export default class MovieComponent extends Component {
       flatListReady: false,
       current_page: 1,
     };
+    console.ignoredYellowBox = ["Warning"];
     this.reloadData();
     realm.addListener('change', () => {
         this.reloadData();

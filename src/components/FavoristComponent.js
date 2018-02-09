@@ -6,10 +6,10 @@ import realm from '../localdatabase/allSchemas';
 
 
 
-const Item = (item, index,dele)=>(
+const Item = (item, index,dele,openNavi)=>(
   <View style={[list.container, {backgroundColor: index%2 == 0 ?"#fff":"#f1f1f1"}]}>
       <View style={list.title}>
-        <Text style={list.name}>{item.title}</Text>
+        <Text style={list.name} numberOfLines={1}>{item.title}</Text>
   
             <TouchableOpacity
             onPress={()=>{Alert.alert(
@@ -27,7 +27,7 @@ const Item = (item, index,dele)=>(
             
       </View>
       <TouchableOpacity style={list.detail}
-      onPress={()=>this.open(item.id)}>
+      onPress={()=>this.openNavi(item.id)}>
       <View
       style={{width: "40%", height: 200}}
       // onPress={()=>this.open(item.id)}
@@ -83,6 +83,11 @@ export default class FavoristComponent extends Component {
     console.log(`reloadData`);
   }
 
+  _onClickDetail=(id)=>{
+    this.props.fetchDetail(id)
+    this.props.navigation.navigate("Screen_DetailFavor")
+  }
+
   loadFavor = (name) => {
     queryAFavor(name).then((AFavor) => {
         this.setState({ AFavor });
@@ -122,7 +127,7 @@ export default class FavoristComponent extends Component {
               placeholderTextColor={'#dcdcdc'}
               onChangeText={(searchText) => this.setState({searchText})}
               underlineColorAndroid="transparent"
-              value={this.state.searchText}
+              // value={this.state.searchText}
           />
           {/* {
             this.state.searchable?
@@ -150,7 +155,7 @@ export default class FavoristComponent extends Component {
           <FlatList
           data={this.state.searchable?this.state.AFavor:this.state.favor}
           keyExtractor={(item, index) => index}
-          renderItem={({item, index}) => Item(item, index,dele=(id)=>this.deleFavorist(id))}
+          renderItem={({item, index}) => Item(item, index,dele=(id)=>this.deleFavorist(id), openNavi=(id)=>this._onClickDetail(id))}
         />
         }
       </View>
@@ -233,6 +238,7 @@ const list = StyleSheet.create({
     flexDirection: "row",
   },
   name: {
+    width: '90%',
     fontSize: 18,
     fontWeight: "bold",
     color: "#1F2B40"
