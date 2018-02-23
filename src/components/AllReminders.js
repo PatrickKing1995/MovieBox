@@ -1,7 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image,Alert, TouchableOpacity  } from 'react-native';
 import {AllRemind} from '../route/Header';
-import reminders from './reminders';
 import {deleteReminder, queryAllReminder } from '../localdatabase/allSchemas';
 import realm from '../localdatabase/allSchemas';
 import PushNotification from 'react-native-push-notification';

@@ -93,7 +93,7 @@ export const queryAllFavor = () => new Promise((resolve, reject) => {
 
 export const queryAFavor = (favorName) => new Promise((resolve, reject) => {    
     Realm.open(databaseOptions).then(realm => {        
-        let aFavor = realm.objects(FAVOR_SCHEMA).filtered('lowtitle == $0', favorName);
+        let aFavor = realm.objects(FAVOR_SCHEMA).filtered('lowtitle CONTAINS $0', favorName);
         resolve(aFavor);  
     }).catch((error) => {        
         reject(error);  

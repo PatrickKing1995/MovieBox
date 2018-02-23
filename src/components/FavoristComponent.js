@@ -121,33 +121,13 @@ export default class FavoristComponent extends Component {
           <TextInput
               style={{flex:1}}
               placeholder="Enter Film's Name"
-              // onFocus={()=>this.setState({searchable: !this.state.searchable})}
               editable={this.state.searchable?false:true}
-              onEndEditing={()=>{this.setState({searchable: true}), this.loadFavor(this.state.searchText.toLowerCase())}}
               placeholderTextColor={'#dcdcdc'}
               onChangeText={(searchText) => this.setState({searchText})}
               underlineColorAndroid="transparent"
-              // value={this.state.searchText}
+              value={this.state.searchText}
           />
-          {/* {
-            this.state.searchable?
-            <TouchableOpacity
-              onPress={()=>this.setState({searchable: !this.state.searchable})}
-            >
-            <Image source={require('../../icons/close.png')} style={styles.ImageStyle} />
-            </TouchableOpacity>:<View>
-            </View>
-            
-          } */}
         </View>
-        {/* <View style={search.container}>
-        <TextInput
-          style={search.searchBar}
-          value={this.state.searchText}
-          underlineColorAndroid={'transparent'}
-          onChange={(text)=>this.setState({searchText: text})}
-          placeholder="Search" />
-        </View> */}
         {
           this.state.favor.length==0?<View style={{height: '100%',alignItems: 'center', justifyContent:'center'}}>
             <Text>No Item</Text>

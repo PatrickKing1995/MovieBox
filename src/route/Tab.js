@@ -75,21 +75,8 @@ export const Tab = TabNavigator({
     Screen_Movie: {
         screen: Details,
         navigationOptions: {
-            tabBarLabel: () =>
-                <
-                Text style = {
-                    tab.text
-                } > Movies < /Text>,
-            tabBarIcon: () =>
-                <
-                Image
-            source = {
-                require('../../icons/home.png')
-            }
-            style = {
-                tab.icon
-            }
-            />
+            tabBarLabel: () => <Text style = {tab.text}>Movies</Text>,
+            tabBarIcon: () =><Image source = {require('../../icons/home.png')} style = {tab.icon}/>
 
         }
     },
@@ -97,25 +84,12 @@ export const Tab = TabNavigator({
         screen: DetailsFavor,
         navigationOptions: {
             tabBarLabel: () =>
-                <
-                Text style = {
-                    tab.text
-                } > Favoristes < /Text>,
+                <Text style = {tab.text}>Favoristes</Text>,
             tabBarIcon: () =>
-                <
-                View >
-                <
-                Image
-            source = {
-                require('../../icons/favor.png')
-            }
-            style = {
-                tab.icon
-            }
-            /> <
-            Count / >
-            <
-            /View>
+                <View>
+                    <Image source = {require('../../icons/favor.png')} style = {tab.icon}/> 
+                    <Count/>
+                </View>
 
         }
     },
@@ -124,13 +98,11 @@ export const Tab = TabNavigator({
         screen: Reminders,
         navigationOptions: {
             tabBarLabel: () =>
-                <
-                Text style = {
+                <Text style = {
                     tab.text
-                } > Settings < /Text>,
+                } > Settings </Text>,
             tabBarIcon: () =>
-                <
-                Image
+                <Image
             source = {
                 require('../../icons/settings.png')
             }
@@ -145,13 +117,11 @@ export const Tab = TabNavigator({
         screen: AboutComponent,
         navigationOptions: {
             tabBarLabel: () =>
-                <
-                Text style = {
+                <Text style = {
                     tab.text
-                } > About < /Text>,
+                } > About </Text>,
             tabBarIcon: () =>
-                <
-                Image
+                <Image
             source = {
                 require('../../icons/about.png')
             }

@@ -5,7 +5,6 @@ import itemsReducer from './itemsReducer';
 import castReducer from './castReducer';
 import detailReducer from './detailReducer';
 import remindReducer from './remindReducer';
-import topRatedReducer from './topRatedReducer';
 
 const allReducers= combineReducers({
     viewReducer,
@@ -14,7 +13,6 @@ const allReducers= combineReducers({
     detailReducer,
     castReducer,
     remindReducer,
-    topRatedReducer,
 
 })
 

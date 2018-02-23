@@ -1,4 +1,4 @@
-import React, { Component } from 'react'
+import React, { Component } from 'react';
 import { Text, View, FlatList,StyleSheet,Image, TouchableOpacity,Alert, RefreshControl  } from 'react-native';
 import HeaderMovieContainer from '../containers/HeaderMovieContainer';
 import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';

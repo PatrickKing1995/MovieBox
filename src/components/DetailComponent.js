@@ -1,9 +1,6 @@
 import React, { Component } from 'react'
 import { Text, View, FlatList,StyleSheet,Image,Alert, TouchableOpacity,Dimensions  } from 'react-native';
 import HeaderDetailContainer from '../containers/HeaderDetailContainer';
-import castcrew from './cast'
-import flastlistData from './popular';
-import castCrew from './cast'
 import {insertNewFavor, deleteFavor,queryAllFavor } from '../localdatabase/allSchemas';
 import realm from '../localdatabase/allSchemas';
 const {width,height} = Dimensions.get('window')
